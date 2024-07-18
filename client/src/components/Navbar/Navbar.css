@@ -1,0 +1,13 @@
+:root{
+    --brown: #654545;
+    --amber: rg;
+}
+
+.header{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 20rem;
+    padding: 1rem;
+    background-color: rgb(89, 37, 16);
+}
