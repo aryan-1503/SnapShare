@@ -1,5 +1,9 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Link, useNavigate} from "react-router-dom";
+import axios from "axios";
+import toast from "react-hot-toast";
+import Loading from "../../components/Loading/Loading.jsx";
+import AuthContext from "../../context/AuthContext.jsx";
 const Register = () => {
     const [formData,setFormData] = useState({
         username: "",
@@ -9,7 +13,7 @@ const Register = () => {
     });
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
-
+    const { setUser } = useContext(AuthContext)
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData,[name] : value});
@@ -19,27 +23,25 @@ const Register = () => {
         console.log(formData)
         const { confirmPassword, ...data } = formData;
         console.log(data);
-        // try{
-        //     setLoading(true);
-        //     const res = await axios.post("http://localhost:7000/api/v2/auth/register",data);
-        //     console.log("RESPONSE : ",res.data);
-        //     navigate("/login")
-        //     toast.success(res.data.message,{
-        //         position: "top-center",
-        //         style: {
-        //             fontSize: "15px"
-        //         }
-        //     })
-        // }
-        // catch (error) {
-        //     console.log(error.message)
-        // }
-        // finally {
-        //     setLoading(false)
-        // }
+        try{
+            setLoading(true);
+            const res = await axios.post("http://localhost:5555/api/auth/register",data,{
+                withCredentials: true
+            });
+            console.log("RESPONSE : ",res.data);
+            setUser(res.data.savedUser)
+            alert(res.data.message)
+            navigate("/verify")
+        }
+        catch (error) {
+            console.log(error.message)
+        }
+        finally {
+            setLoading(false)
+        }
     }
     return (
-        <div className="w-screen h-screen bg-[#FFFFF0] flex justify-center items-center">
+        <div className="w-screen h-screen bg-yellow-50 flex justify-center items-center">
             <div className="flex flex-col justify-center items-center bg-[#2f1a1a] w-[22%] h-auto p-4 rounded-[0.5rem] shadow mxs:w-[270px] msm:w-[330px] mmd:w-[340px] mlg:w-[350px]">
                 <div className="flex justify-center flex-col items-center text-[35px] gap-4 text-amber-100 mb-3">
                     Register

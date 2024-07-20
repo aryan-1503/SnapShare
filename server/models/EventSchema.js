@@ -2,22 +2,18 @@ import mongoose, {model, Schema} from "mongoose";
 
 
 const EventSchema = new Schema({
-    email : {
-        type: String,
-        required: true
-    },
     eventName: {
         type: String,
         required : true
     },
     eventPhoto: {
         type: String,
-        data: Buffer
+        required: true
     },
-    images: {
+    images: [{
         type: mongoose.Types.ObjectId,
-        ref: "images"
-    }
+        ref: "Image"
+    }]
 })
 
 const eventModel = model("Event",EventSchema,"events")

@@ -5,9 +5,9 @@ import {CgCopyright} from "react-icons/cg";
 
 const Footer = () => {
     return (
-        <footer className="absolute bottom-0 w-full flex justify-around items-center p-4 bg-[#2f1a1a] text-amber-100 mxs:flex-col msm:flex-col">
+        <footer className="w-screen flex justify-around items-center p-4 bg-[#382014] text-amber-100 mxs:flex-col msm:flex-col">
             <div className="flex flex-col justify-center items-center">
-                <Link to="/" className="pt-2 flex justify-center items-center gap-3 tracking-wide">
+                <Link to="/" className="pt-2 flex justify-center items-center gap-3 tracking-wide text-[28px]">
                     <SiImagedotsc className="text-3xl" />
                     SnapShare
                 </Link>
@@ -15,7 +15,7 @@ const Footer = () => {
                     href="https://github.com/aryan-1503"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="pt-2 flex justify-center items-center gap-1 tracking-wide text-xl"
+                    className="pt-2 flex justify-center items-center gap-1 tracking-wide text-[18px]"
                 >
                     Copyright
                     <CgCopyright />

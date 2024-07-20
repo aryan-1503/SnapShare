@@ -9,8 +9,11 @@ const ImageSchema = new Schema({
         type: String,
         required: true
     },
+    category: {
+
+    }
 })
 
-const ImageModel = model("images",ImageSchema)
+const ImageModel = model("Image",ImageSchema,"images")
 
 export { ImageModel }
