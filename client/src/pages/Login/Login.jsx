@@ -51,7 +51,7 @@ const Login = () => {
                             placeholder="Email"
                             onChange={handleChange}
                             required
-                            className="h-[2.5rem] w-[120%] rounded pl-[0.6rem] border-2 border-amber-950 font-bold text-[16px] mxs:w-[105%]"
+                            className="h-[2.5rem] w-[120%] rounded pl-[0.6rem] border-2 border-amber-950 font-[500] text-[17px] mxs:w-[105%]"
                         />
                         <input
                             type="password"
@@ -59,7 +59,7 @@ const Login = () => {
                             placeholder="Password"
                             onChange={handleChange}
                             required
-                            className="h-[2.5rem] w-[120%] rounded pl-[0.6rem] border-2 border-amber-950 font-bold text-[16px] mxs:w-[105%]"
+                            className="h-[2.5rem] w-[120%] rounded pl-[0.6rem] border-2 border-amber-950 font-[500] text-[17px] mxs:w-[105%]"
                         />
 
                         <button type="submit" className="w-[120%] h-[2.5rem] rounded bg-amber-100 text-[#2f1a1a] font-bold text-[20px] active:scale-[0.98] mxs:w-[105%]">

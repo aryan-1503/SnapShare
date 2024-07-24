@@ -3,9 +3,10 @@ import Hero1 from "../../assets/hero-1.jpg"
 import Hero2 from "../../assets/hero-2.jpg"
 import Hero3 from "../../assets/hero-3.jpg"
 import {IoMdAdd} from "react-icons/io";
+import {useNavigate} from "react-router-dom";
 
 const EventsExample = () => {
-
+    const navigate = useNavigate()
 
     return (
         <div className="flex justify-center items-center p-8 bg-[#F8EEC7FF]">
@@ -48,7 +49,7 @@ const EventsExample = () => {
                         </div>
                     </div>
                 </div>
-                <button className="mt-4 p-[0.5rem_0.8rem_0.5rem_0.5rem] flex items-center gap-1 text-xl font-bold text-yellow-950 border-2 border-yellow-950 active:scale-95 hover:bg-yellow-950 duration-200 ease-in hover:text-amber-100"><IoMdAdd />Create Your Event</button>
+                <button className="mt-4 p-[0.5rem_0.8rem_0.5rem_0.5rem] flex items-center gap-1 text-xl font-bold text-yellow-950 border-2 border-yellow-950 active:scale-95 hover:bg-yellow-950 duration-200 ease-in hover:text-amber-100" onClick={() => navigate("/new-event")}><IoMdAdd />Create Your Event</button>
             </div>
         </div>
     );

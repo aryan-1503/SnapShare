@@ -7,6 +7,7 @@ import Home from "./pages/Home/Home.jsx";
 import {useState} from "react";
 import AuthContext from "./context/AuthContext.jsx";
 import Verify from "./pages/Verify/Verify.jsx";
+import CreateEvent from "./pages/CreateEvent/CreateEvent.jsx";
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
                 <Routes>
                     <Route element={<RootLayout/>}>
                         <Route path="/" element={<Home/>}/>
+                        <Route path="/new-event" element={<CreateEvent/>}/>
                         <Route path="/profile" element={<div className="h-screen text-5xl bg-yellow-50">Profile</div>}/>
                         <Route path="/all-events" element={<div className="h-screen text-5xl bg-yellow-50">User Events</div>}/>
                         <Route path="/about-us" element={<div className="h-screen text-5xl bg-yellow-50">About</div>}/>

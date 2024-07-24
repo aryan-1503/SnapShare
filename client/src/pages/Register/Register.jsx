@@ -54,7 +54,7 @@ const Register = () => {
                             placeholder="Username"
                             onChange={handleChange}
                             required
-                            className="h-[2.5rem] w-[130%] rounded pl-[0.6rem] border-2 border-amber-950 font-bold text-[16px] mxs:w-[105%]"
+                            className="h-[2.5rem] w-[130%] rounded pl-[0.6rem] border-2 border-amber-950 font-[500] text-[17px] mxs:w-[105%]"
                         />
                         <input
                             type="email"
@@ -62,7 +62,7 @@ const Register = () => {
                             placeholder="Email"
                             onChange={handleChange}
                             required
-                            className="h-[2.5rem] w-[130%] rounded pl-[0.6rem] border-2 border-amber-950 font-bold text-[16px] mxs:w-[105%]"
+                            className="h-[2.5rem] w-[130%] rounded pl-[0.6rem] border-2 border-amber-950 font-[500] text-[17px] mxs:w-[105%]"
                         />
                         <input
                             type="password"
@@ -70,7 +70,7 @@ const Register = () => {
                             placeholder="Password"
                             onChange={handleChange}
                             required
-                            className="h-[2.5rem] w-[130%] rounded pl-[0.6rem] border-2 border-amber-950 font-bold text-[16px] mxs:w-[105%]"
+                            className="h-[2.5rem] w-[130%] rounded pl-[0.6rem] border-2 border-amber-950 font-[500] text-[17px] mxs:w-[105%]"
                         />
                         <input
                             type="text"
@@ -79,7 +79,7 @@ const Register = () => {
                             placeholder="Confirm Password"
                             onChange={handleChange}
                             required
-                            className="h-[2.5rem] w-[130%] rounded pl-[0.6rem] border-2 border-amber-950 font-bold text-[16px] mxs:w-[105%]"
+                            className="h-[2.5rem] w-[130%] rounded pl-[0.6rem] border-2 border-amber-950 font-[500] text-[17px] mxs:w-[105%]"
                         />
 
                         <button type="submit" className="w-[130%] h-[2.5rem] rounded bg-amber-100 text-[#2f1a1a] font-bold text-[20px] active:scale-[0.98] mxs:w-[105%]">
