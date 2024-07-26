@@ -2,10 +2,14 @@ import React, { useState, useRef } from 'react';
 import { Link } from "react-router-dom";
 import Event from "../../assets/event.jpg";
 import { IoCloudUploadOutline } from "react-icons/io5";
-import {LazyLoadImage} from "react-lazy-load-image-component";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import { IoIosAdd } from "react-icons/io";
+import { MdOutlineDelete } from "react-icons/md";
 
 const CreateEvent = () => {
     const [selectedImage, setSelectedImage] = useState(null);
+    const [categories, setCategories] = useState([]);
+    const [categoryInput, setCategoryInput] = useState('');
     const fileInputRef = useRef(null);
 
     const handleFileClick = () => {
@@ -23,11 +27,22 @@ const CreateEvent = () => {
         e.preventDefault();
     };
 
+    const handleAdd = (e) => {
+        e.preventDefault();
+        if (categoryInput.trim() !== '') {
+            setCategories([...categories, categoryInput]);
+            setCategoryInput('');
+        }
+    };
+
+    const handleDelete = (index) => {
+        setCategories(categories.filter((_, i) => i !== index));
+    };
+
     return (
         <div className="flex justify-around bg-yellow-50">
             <div className="w-2/5 msm:hidden mxs:hidden">
                 <Link to="https://www.pexels.com/photo/gentle-lush-floribunda-flowers-on-floor-2879823/">
-                    {/*<img src={Event} alt="Event" />*/}
                     <LazyLoadImage
                         src={Event}
                         alt=""
@@ -40,10 +55,10 @@ const CreateEvent = () => {
                     <input
                         type="text"
                         placeholder="Event Name"
-                        className="text-xl pl-[0.6rem] bg-yellow-50 border-2 border-amber-950 p-1 w-2/3 placeholder:text-yellow-900"
+                        className="text-lg pl-[0.6rem] bg-yellow-50 border-2 border-amber-950 p-1 w-2/3 placeholder:text-yellow-900"
                     />
                     <div
-                        className="relative flex flex-col justify-center items-center w-2/3 h-48 border-2 border-yellow-950 text-center text-gray-600 cursor-pointer"
+                        className="relative flex flex-col justify-center items-center w-2/3 h-48 border-2 border-dashed border-yellow-950 text-center text-gray-600 cursor-pointer"
                         onClick={handleFileClick}
                     >
                         {selectedImage ? (
@@ -72,11 +87,35 @@ const CreateEvent = () => {
                             onChange={handleFileChange}
                         />
                     </div>
-                    <textarea
-                        placeholder="Event description"
-                        spellCheck={true}
-                        className="text-xl pl-[0.6rem] w-2/3 h-[10rem] bg-yellow-50 border-2 border-amber-950 px-5 pt-2 placeholder:text-yellow-900"
-                    />
+                    <div className="flex gap-2 w-2/3">
+                        <input
+                            type="text"
+                            value={categoryInput}
+                            onChange={(e) => setCategoryInput(e.target.value)}
+                            placeholder="Categories Eg. Ring Ceremony"
+                            className="text-lg pl-[0.6rem] bg-yellow-50 border-2 border-amber-950 p-1 w-11/12 placeholder:text-yellow-900"
+                        />
+                        <button
+                            onClick={handleAdd}
+                            className="px-3 bg-yellow-950 text-yellow-50 rounded hover:bg-yellow-900 duration-200 ease-in active:scale-95"
+                        >
+                            <IoIosAdd className="text-2xl" />
+                        </button>
+                    </div>
+                    <div className="text-yellow-950 text-2xl font-bold mt-3">
+                        Event Categories
+                        <ol className="overflow-y-scroll max-h-20 scrollbar scrollbar-track-yellow-50">
+                            {categories.length > 0 ? categories.map((category, index) => (
+                                <li key={index} className="flex items-center justify-between gap-8 text-lg font-[300] pl-2">
+                                    - {category} <button onClick={() => handleDelete(index)}><MdOutlineDelete className="text-xl" /></button>
+                                </li>
+                            )) : (
+                                <div className="font-[300] text-xl pl-2">
+                                    - No items
+                                </div>
+                            )}
+                        </ol>
+                    </div>
                     <button type="submit" className="mt-4 p-2 bg-yellow-950 text-yellow-50 rounded hover:bg-yellow-900 duration-200 ease-in active:scale-95">
                         Generate QR Code
                     </button>

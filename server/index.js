@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser"
 import "dotenv/config"
 import {connectToDB} from "./utils/connectToDb.js";
 import {authRouter} from "./routes/auth.route.js";
+import {newEventRoute} from "./routes/new-event.route.js";
 
 const PORT = process.env.PORT || 8000
 console.log("SnapShare backend")
@@ -22,6 +23,7 @@ app.use(cookieParser());
 //Routers
 
 app.use("/api/auth",authRouter)
+app.use("/api/new-event/",newEventRoute)
 
 app.get("/", (req, res) => {
     res.send("Hello world");

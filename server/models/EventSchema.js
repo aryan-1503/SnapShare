@@ -10,6 +10,9 @@ const EventSchema = new Schema({
         type: String,
         required: true
     },
+    category : {
+        type: Array,
+    },
     images: [{
         type: mongoose.Types.ObjectId,
         ref: "Image"

@@ -8,6 +8,8 @@ import {useState} from "react";
 import AuthContext from "./context/AuthContext.jsx";
 import Verify from "./pages/Verify/Verify.jsx";
 import CreateEvent from "./pages/CreateEvent/CreateEvent.jsx";
+import AuthGuard from "./components/AuthGuard/AuthGuard.jsx";
+import AllEvents from "./pages/AllEvents/AllEvents.jsx";
 
 
 function App() {
@@ -20,7 +22,16 @@ function App() {
                 <Routes>
                     <Route element={<RootLayout/>}>
                         <Route path="/" element={<Home/>}/>
-                        <Route path="/new-event" element={<CreateEvent/>}/>
+                        <Route path="/new-event" element={
+                            <AuthGuard>
+                                <CreateEvent />
+                            </AuthGuard>
+                        }/>
+                        <Route path="/event/all" element={
+                            <AuthGuard>
+                                <AllEvents />
+                            </AuthGuard>
+                        }/>
                         <Route path="/profile" element={<div className="h-screen text-5xl bg-yellow-50">Profile</div>}/>
                         <Route path="/all-events" element={<div className="h-screen text-5xl bg-yellow-50">User Events</div>}/>
                         <Route path="/about-us" element={<div className="h-screen text-5xl bg-yellow-50">About</div>}/>
