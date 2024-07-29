@@ -21,7 +21,7 @@ const Hero = () => {
                     <div className="mt-8 flex gap-4 mr-8">
                         { user ? (
                             <>
-                                <button className="px-4 flex justify-center items-center bg-yellow-950 rounded-md font-[500] text-[18px] text-[#FFFFF0] hover:bg-yellow-800 hover:transition ease-in delay-150 hover:shadow-2xl active:scale-95" onClick={() => navigate("/events")}>My events</button>
+                                <button className="px-4 flex justify-center items-center bg-yellow-950 rounded-md font-[500] text-[18px] text-[#FFFFF0] hover:bg-yellow-800 hover:transition ease-in delay-150 hover:shadow-2xl active:scale-95" onClick={() => navigate("/event/all")}>My events</button>
                             </>
                         ) : (
                             <>

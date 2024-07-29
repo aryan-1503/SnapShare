@@ -57,12 +57,14 @@ authRouter
         try{
             const user = await UserModel.findOne({ email });
             if(!user){
-                return res.status(404).json({message: "User not found! Register first"});
+                console.log("user not found")
+                return res.status(404).json({ message: "User not found! Register first" });
             }
 
             const isPasswordMatch = await bcrypt.compare(password,user.password);
             if (!isPasswordMatch){
-                return res.status(400).json({message: "Invalid Credentials"});
+                console.log("password incorrect")
+                return res.status(400).json({ message: "Invalid Credentials" });
             }
             const token = jwt.sign({id: user._id},process.env.SECRET, {expiresIn: '1d'});
             res.cookie('token',token,{
@@ -96,7 +98,7 @@ authRouter
             return res.status(401).json({ msg: "Unauthorized" });
         }
 
-        const data = jwt.verify(token, process.env.SECRET);
+        const data = await jwt.verify(token, process.env.SECRET);
 
         if (!data) {
             return res.status(401).json({ msg: "data Unauthorized" });

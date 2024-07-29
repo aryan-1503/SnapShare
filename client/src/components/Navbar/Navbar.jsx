@@ -12,20 +12,6 @@ const Navbar = () => {
     const navigate = useNavigate();
     const {user,setUser} = useContext(AuthContext);
 
-    useEffect(() => {
-        const fetchUserData = async () => {
-            try{
-                const res = await axios.get("http://localhost:5555/api/auth/me",{
-                    withCredentials: true
-                });
-                setUser(res.data.user);
-
-            }catch (error) {
-                console.log("Error fetching user data : ",error);
-            }
-        }
-        fetchUserData()
-    }, []);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -49,7 +35,7 @@ const Navbar = () => {
                 setUser(null);
             }
         }catch (e) {
-            console.log(e.message)
+            console.log(e.message);
         }
     }
 

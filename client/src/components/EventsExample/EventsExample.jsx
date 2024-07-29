@@ -14,7 +14,7 @@ const EventsExample = () => {
                 <div className="text-[50px] font-bold text-yellow-950 mxs:text-5xl mxs:text-center">
                     Create your Event
                 </div>
-                <div className="text-justify w-7/12 text-[23px] text-yellow-900 mxs:w-full msm:w-full mmd:w-4/5 mlg:w-7/12">
+                <div className="text-justify w-7/12 text-xl text-yellow-900 mxs:w-full msm:w-full mmd:w-4/5 mlg:w-7/12">
                     Welcome to SnapShare! Whether it's a wedding, a birthday, or any special occasion, our platform lets you create and manage your events effortlessly. Upload your favorite photos, generate QR codes for easy sharing, and keep all your memories in one place. Get started now and make every moment memorable.
                 </div>
                 <div className="w-7/12 flex justify-center items-center gap-4 mt-4 mxs:flex-col msm:flex-col mmd:grid mmd:grid-cols-2 mmd:w-auto mlg:grid mlg:grid-cols-3 mlg:w-auto">
