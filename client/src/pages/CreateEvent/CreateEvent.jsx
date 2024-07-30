@@ -39,6 +39,22 @@ const CreateEvent = () => {
         setCategories(categories.filter((_, i) => i !== index));
     };
 
+    const handleDragOver = (e) => {
+        e.preventDefault();
+    };
+
+    const handleDrop = (e) => {
+        e.preventDefault();
+        const file = e.dataTransfer.files[0];
+        if (file) {
+            setSelectedImage(URL.createObjectURL(file));
+        }
+    };
+
+    const handleRemoveImage = () => {
+        setSelectedImage(null);
+    };
+
     return (
         <div className="flex justify-around bg-yellow-50">
             <div className="w-2/5 msm:hidden mxs:hidden">
@@ -60,15 +76,16 @@ const CreateEvent = () => {
                     <div
                         className="relative flex flex-col justify-center items-center w-2/3 h-48 border-2 border-dashed border-yellow-950 text-center text-gray-600 cursor-pointer"
                         onClick={handleFileClick}
+                        onDragOver={handleDragOver}
+                        onDrop={handleDrop}
                     >
                         {selectedImage ? (
                             <div className="relative w-full h-full">
                                 <div className="w-full h-full">
                                     <img src={selectedImage} alt="Uploaded" className="w-full h-full object-contain" />
                                 </div>
-
                                 <div className="absolute inset-0 flex justify-center items-center bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition duration-300">
-                                    <span className="text-white text-xl">Change image</span>
+                                    <button onClick={handleRemoveImage} className="text-white text-xl">Remove image</button>
                                 </div>
                             </div>
                         ) : (

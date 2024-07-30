@@ -29,6 +29,7 @@ const Login = () => {
             console.log("RESPONSE : ",res.data);
             alert(res.data.message)
             navigate("/")
+            window.location.reload();
         }
         catch (error) {
             console.log(error.message)
