@@ -9,18 +9,17 @@ import AuthContext from "./context/AuthContext.jsx";
 import Verify from "./pages/Verify/Verify.jsx";
 import CreateEvent from "./pages/CreateEvent/CreateEvent.jsx";
 import AllEvents from "./pages/AllEvents/AllEvents.jsx";
-import axios from "axios";
+import { api } from "./api/base.js";
 
 function App() {
     const [user, setUser] = useState(null);
+    const [tempUser,setTempUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const res = await axios.get("http://localhost:5555/api/auth/me", {
-                    withCredentials: true
-                });
+                const res = await api.get("auth/me");
                 setUser(res.data.user);
             } catch (error) {
                 console.log("Error fetching user data:", error);
@@ -36,7 +35,7 @@ function App() {
     }
 
     return (
-        <AuthContext.Provider value={{ user, setUser }}>
+        <AuthContext.Provider value={{ user, setUser, tempUser, setTempUser }}>
             <Router>
                 <Routes>
                     <Route element={<RootLayout />}>

@@ -10,8 +10,15 @@ const EventSchema = new Schema({
         type: String,
         required: true
     },
-    category : {
+    categories : {
         type: Array,
+    },
+    description: {
+        type: String
+    },
+    eventTime: {
+        type :String,
+        required: true
     },
     images: [{
         type: mongoose.Types.ObjectId,

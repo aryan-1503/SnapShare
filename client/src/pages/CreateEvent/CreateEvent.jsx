@@ -1,16 +1,28 @@
-import React, { useState, useRef } from 'react';
-import { Link } from "react-router-dom";
+import React, { useState, useRef, useEffect } from 'react';
+import {Link, useNavigate} from "react-router-dom";
 import Event from "../../assets/event.jpg";
 import { IoCloudUploadOutline } from "react-icons/io5";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { IoIosAdd } from "react-icons/io";
 import { MdOutlineDelete } from "react-icons/md";
+import {api} from "../../api/base.js";
+import axios from "axios";
 
 const CreateEvent = () => {
+
+    const navigate = useNavigate();
     const [selectedImage, setSelectedImage] = useState(null);
     const [categories, setCategories] = useState([]);
     const [categoryInput, setCategoryInput] = useState('');
     const fileInputRef = useRef(null);
+
+    const [formData, setFormData] = useState({
+        eventName: "",
+        eventPhoto: selectedImage,
+        eventTime: "",
+        description: "",
+        categories: categories
+    });
 
     const handleFileClick = () => {
         fileInputRef.current.click();
@@ -20,23 +32,76 @@ const CreateEvent = () => {
         const file = e.target.files[0];
         if (file) {
             setSelectedImage(URL.createObjectURL(file));
+            setFormData({
+                ...formData,
+                eventPhoto: file
+            });
         }
     };
 
-    const handleGenerateQRCode = (e) => {
-        e.preventDefault();
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+
+        if (name === 'eventTime') {
+            const date = new Date(value);
+            const formattedDate = date.toLocaleString('en-US', { month: 'short', year: 'numeric' });
+            setFormData({
+                ...formData,
+                [name]: formattedDate,
+            });
+        } else {
+            setFormData({
+                ...formData,
+                [name]: value,
+            });
+        }
     };
+
+    const handleGenerateQRCode = async (e) => {
+        e.preventDefault();
+        const data = new FormData();
+        data.append('eventName', formData.eventName);
+        data.append('eventPhoto', formData.eventPhoto);
+        data.append('eventTime', formData.eventTime);
+        data.append('description', formData.description);
+        data.append('categories', formData.categories);
+
+        try {
+            const res = await axios.post("http://localhost:5555/api/new-event/create", data, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                },
+                withCredentials: true
+            });
+            console.log(res.data);
+            alert(res.data.message);
+            // navigate("/")
+        } catch (error) {
+            console.log("Server Error : ", error);
+        }
+    };
+
 
     const handleAdd = (e) => {
         e.preventDefault();
         if (categoryInput.trim() !== '') {
-            setCategories([...categories, categoryInput]);
+            const updatedCategories = [...categories, categoryInput];
+            setCategories(updatedCategories);
+            setFormData({
+                ...formData,
+                categories: updatedCategories
+            });
             setCategoryInput('');
         }
     };
 
     const handleDelete = (index) => {
-        setCategories(categories.filter((_, i) => i !== index));
+        const updatedCategories = categories.filter((_, i) => i !== index);
+        setCategories(updatedCategories);
+        setFormData({
+            ...formData,
+            categories: updatedCategories
+        });
     };
 
     const handleDragOver = (e) => {
@@ -48,33 +113,45 @@ const CreateEvent = () => {
         const file = e.dataTransfer.files[0];
         if (file) {
             setSelectedImage(URL.createObjectURL(file));
+            setFormData({
+                ...formData,
+                eventPhoto: file
+            });
         }
     };
 
     const handleRemoveImage = () => {
         setSelectedImage(null);
+        setFormData({
+            ...formData,
+            eventPhoto: null
+        });
     };
 
     return (
-        <div className="flex justify-around bg-yellow-50">
-            <div className="w-2/5 msm:hidden mxs:hidden">
+        <div className="flex flex-col lg:flex-row justify-around bg-yellow-50">
+            <div className="w-full h-full lg:w-2/5 hidden lg:block mxs:hidden">
                 <Link to="https://www.pexels.com/photo/gentle-lush-floribunda-flowers-on-floor-2879823/">
                     <LazyLoadImage
                         src={Event}
-                        alt=""
+                        alt="Event"
+                        className=""
                     />
                 </Link>
             </div>
-            <div className="w-3/5 flex flex-col justify-center items-center gap-8 bg-yellow-50 mxs:w-full">
-                <div className="text-5xl text-yellow-950 mxs:text-center mxs:mt-8">Create your Event</div>
-                <form onSubmit={handleGenerateQRCode} className="hover:shadow-2xl mxs:hover:w-[98%] duration-200 ease-in rounded-xl p-8 w-2/3 flex flex-col gap-2 justify-center items-center mxs:w-auto">
+            <div className="w-full lg:w-3/5 flex flex-col justify-center items-center bg-yellow-50">
+                <div className="text-5xl text-yellow-950 mt-7 mxs:text-center mxs:mt-8">Create your Event</div>
+                <form onSubmit={handleGenerateQRCode} className="bg-yellow-50 hover:shadow-2xl duration-200 ease-in rounded-xl p-8 w-full lg:w-2/3 flex flex-col gap-3 justify-center items-center">
                     <input
                         type="text"
                         placeholder="Event Name"
-                        className="text-lg pl-[0.6rem] bg-yellow-50 border-2 border-amber-950 p-1 w-2/3 placeholder:text-yellow-900"
+                        name="eventName"
+                        value={formData.eventName}
+                        onChange={handleChange}
+                        className="text-lg pl-2 bg-yellow-50 border-2 border-amber-950 p-1 w-[90%] placeholder:text-yellow-800"
                     />
                     <div
-                        className="relative flex flex-col justify-center items-center w-2/3 h-48 border-2 border-dashed border-yellow-950 text-center text-gray-600 cursor-pointer"
+                        className="relative flex flex-col justify-center items-center w-[90%] h-48 border-2 border-dashed border-yellow-950 text-center text-gray-600 cursor-pointer"
                         onClick={handleFileClick}
                         onDragOver={handleDragOver}
                         onDrop={handleDrop}
@@ -96,7 +173,7 @@ const CreateEvent = () => {
                         )}
                         <input
                             className="hidden"
-                            name="text"
+                            name="file"
                             id="file"
                             type="file"
                             ref={fileInputRef}
@@ -104,13 +181,35 @@ const CreateEvent = () => {
                             onChange={handleFileChange}
                         />
                     </div>
-                    <div className="flex gap-2 w-2/3">
+                    <label htmlFor="eventDate" className="text-xl text-yellow-900 border-2 border-yellow-950 p-1 w-[90%]">
+                        Event Time:
+                        <input
+                            type="month"
+                            name="eventTime"
+                            id="eventDate"
+                            className="bg-yellow-50 pl-3 w-[90%]"
+                            onChange={handleChange}
+                            required
+                        />
+                    </label>
+
+                    <textarea
+                        name="description"
+                        id="description"
+                        cols="30"
+                        rows="2"
+                        className="bg-yellow-50 border-2 border-yellow-950 pl-2 pt-1 placeholder:text-yellow-800 text-lg w-[90%]"
+                        placeholder="Describe your event"
+                        onChange={handleChange}
+                        value={formData.description}
+                    />
+                    <div className="flex gap-2 w-[90%]">
                         <input
                             type="text"
                             value={categoryInput}
                             onChange={(e) => setCategoryInput(e.target.value)}
                             placeholder="Categories Eg. Ring Ceremony"
-                            className="text-lg pl-[0.6rem] bg-yellow-50 border-2 border-amber-950 p-1 w-11/12 placeholder:text-yellow-900"
+                            className="text-lg pl-2 bg-yellow-50 border-2 border-amber-950 p-1 w-11/12 placeholder:text-yellow-800"
                         />
                         <button
                             onClick={handleAdd}
@@ -119,15 +218,15 @@ const CreateEvent = () => {
                             <IoIosAdd className="text-2xl" />
                         </button>
                     </div>
-                    <div className="text-yellow-950 text-2xl font-bold mt-3">
+                    <div className="text-yellow-950 text-2xl font-bold w-[90%]">
                         Event Categories
                         <ol className="overflow-y-scroll max-h-20 scrollbar scrollbar-track-yellow-50">
                             {categories.length > 0 ? categories.map((category, index) => (
-                                <li key={index} className="flex items-center justify-between gap-8 text-lg font-[300] pl-2">
+                                <li key={index} className="flex items-center justify-between gap-8 text-lg font-light pl-2">
                                     - {category} <button onClick={() => handleDelete(index)}><MdOutlineDelete className="text-xl" /></button>
                                 </li>
                             )) : (
-                                <div className="font-[300] text-xl pl-2">
+                                <div className="font-light text-xl pl-2">
                                     - No items
                                 </div>
                             )}
@@ -137,9 +236,6 @@ const CreateEvent = () => {
                         Generate QR Code
                     </button>
                 </form>
-                <div className="w-3/5 mb-8 mxs:w-10/12">
-                    <div className="text-xl text-yellow-950"><b>Note</b> : The image upload here will be used as the display image in your event page.</div>
-                </div>
             </div>
         </div>
     );

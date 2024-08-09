@@ -1,9 +1,8 @@
 import React, {useContext, useState} from 'react';
-import {Link, useNavigate} from "react-router-dom";
-import axios from "axios";
-import toast from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
 import Loading from "../../components/Loading/Loading.jsx";
 import AuthContext from "../../context/AuthContext.jsx";
+import { api } from "../../api/base.js";
 const Register = () => {
     const [formData,setFormData] = useState({
         username: "",
@@ -13,7 +12,7 @@ const Register = () => {
     });
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
-    const { setUser } = useContext(AuthContext)
+    const { setTempUser } = useContext(AuthContext)
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData,[name] : value});
@@ -25,16 +24,19 @@ const Register = () => {
         console.log(data);
         try{
             setLoading(true);
-            const res = await axios.post("http://localhost:5555/api/auth/register",data,{
-                withCredentials: true
-            });
+            const res = await api.post("auth/register",data);
             console.log("RESPONSE : ",res.data);
-            setUser(res.data.savedUser)
+            setTempUser(res.data.savedUser)
             alert(res.data.message)
             navigate("/verify")
         }
         catch (error) {
-            console.log(error.message)
+            if (error.response && error.response.data && error.response.data.message) {
+                alert(error.response.data.message);
+            } else {
+                alert("An unexpected error occurred");
+            }
+            console.log(error.message);
         }
         finally {
             setLoading(false)

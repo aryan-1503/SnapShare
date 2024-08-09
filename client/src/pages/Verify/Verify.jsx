@@ -1,14 +1,14 @@
 import React, {useContext, useEffect, useState} from 'react';
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import Loading from "../../components/Loading/Loading.jsx";
 import AuthContext from "../../context/AuthContext.jsx";
+import { api } from "../../api/base.js";
 
 const Verify = () => {
     const [verificationCode, setVerificationCode] = useState("");
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
-    const {user,setUser} = useContext(AuthContext)
+    const {tempUser,setUser} = useContext(AuthContext)
 
     const handleChange = (e) => {
         setVerificationCode(e.target.value);
@@ -19,14 +19,17 @@ const Verify = () => {
         e.preventDefault();
         try {
             setLoading(true);
-            const res = await axios.post("http://localhost:5555/api/auth/verify", { email: user.email,verificationCode: verificationCode }, {
-                withCredentials: true
-            });
+            const res = await api.post("auth/verify", { email: tempUser.email,verificationCode: verificationCode });
             console.log("RESPONSE:", res.data);
             alert(res.data.message);
             setUser(res.data.user)
             navigate("/");
         } catch (error) {
+            if (error.response && error.response.data && error.response.data.message) {
+                alert(error.response.data.message);
+            } else {
+                alert("An unexpected error occurred");
+            }
             console.log(error.message);
         } finally {
             setLoading(false);

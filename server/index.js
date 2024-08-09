@@ -2,9 +2,11 @@ import express, {urlencoded} from "express";
 import cors from "cors"
 import cookieParser from "cookie-parser"
 import "dotenv/config"
-import {connectToDB} from "./utils/connectToDb.js";
-import {authRouter} from "./routes/auth.route.js";
-import {newEventRoute} from "./routes/new-event.route.js";
+import { connectToDB } from "./utils/connectToDb.js";
+import { authRouter } from "./routes/auth.route.js";
+import { newEventRoute } from "./routes/new-event.route.js";
+import { userRoute } from "./routes/user.route.js";
+
 
 const PORT = process.env.PORT || 8000
 console.log("SnapShare backend")
@@ -17,16 +19,19 @@ app.use(cors({
 }))
 
 app.use(express.json());
+
 app.use(urlencoded({ extended:false }))
 app.use(cookieParser());
+app.use('/events', express.static('events'));
 
 //Routers
 
 app.use("/api/auth",authRouter)
 app.use("/api/new-event/",newEventRoute)
+app.use("/api/user",userRoute)
 
 app.get("/", (req, res) => {
-    res.send("Hello world");
+    res.send("HealthCheck");
 });
 
 
