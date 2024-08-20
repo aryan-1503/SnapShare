@@ -7,6 +7,10 @@ export default {
         "./src/**/*.{js,ts,jsx,tsx}",
     ],
     theme: {
+        fontFamily: {
+            'dancing-script': ['Dancing Script',"cursive"],
+            'cinzel': ['Cinzel', 'serif'],
+        },
         screens: {
             'sm': '480px',
             'md': '767px',

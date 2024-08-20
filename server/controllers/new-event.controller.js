@@ -39,5 +39,19 @@ const createNewEvent = async (req, res) => {
     }
 }
 
+const getSingleEvent = async (req,res) => {
+    const id  = req.params.id;
+    try{
+        const event = await eventModel.findById(id);
+        if (!event){
+            return res.status(404).json({ message : "Event not Found"});
+        }
+        return res.status(200).json({message: "Event Found", event})
+    }
+    catch (e) {
+        console.log(e);
+        return res.status(500).json({ message: "Internal Server Error" });
+    }
+}
 
-export { createNewEvent }
+export { createNewEvent, getSingleEvent }

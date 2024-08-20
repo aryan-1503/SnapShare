@@ -1,6 +1,6 @@
 import { Router } from "express";
 import multer from "multer";
-import {createNewEvent} from "../controllers/new-event.controller.js";
+import {createNewEvent, getSingleEvent} from "../controllers/new-event.controller.js";
 
 const newEventRoute = Router();
 
@@ -17,6 +17,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 newEventRoute
-    .post("/create", upload.single('eventPhoto'), createNewEvent);
+    .post("/create", upload.single('eventPhoto'), createNewEvent)
+    .get("/:id",getSingleEvent)
 
 export { newEventRoute };

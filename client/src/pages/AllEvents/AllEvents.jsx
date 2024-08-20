@@ -53,7 +53,7 @@ const AllEvents = () => {
                     {loading ? <Loading /> : (
                         <>
                             {events && events.map((event,index) => (
-                                <Link to={`http://localhost:5555/${decodeURIComponent(event.eventPhoto)}`} className=" p-3 w-[290px] h-[370px] hover:scale-105 duration-200 ease-in hover:shadow-2xl mxs:w-[270px] mxs:h-[370px] msm:w-[300px] msm:h-[350px] mmd:h-[370px] mmd:w-[300px] mlg:w-[270px] mlg:h-[37  0px]">
+                                <Link key={index} to={`http://localhost:5173/edit-event/${event._id}`} className=" p-3 w-[290px] h-[370px] hover:scale-105 duration-200 ease-in hover:shadow-2xl mxs:w-[270px] mxs:h-[370px] msm:w-[300px] msm:h-[350px] mmd:h-[370px] mmd:w-[300px] mlg:w-[270px] mlg:h-[37  0px]">
                                     <img src={`http://localhost:5555/${decodeURIComponent(event.eventPhoto)}`} alt="" className="w-[270px] h-[240px] rounded"/>
                                     <div className="flex justify-between items-center mt-2">
                                         <div className="text-2xl font-bold">{event.eventName}</div>

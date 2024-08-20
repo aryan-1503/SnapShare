@@ -130,12 +130,13 @@ const CreateEvent = () => {
 
     return (
         <div className="flex flex-col lg:flex-row justify-around bg-yellow-50">
-            <div className="w-full h-full lg:w-2/5 hidden lg:block mxs:hidden">
+            <div className="w-ful lg:w-2/5 hidden lg:block">
                 <Link to="https://www.pexels.com/photo/gentle-lush-floribunda-flowers-on-floor-2879823/">
                     <LazyLoadImage
                         src={Event}
                         alt="Event"
-                        className=""
+                        className="lg:h-[100%] object-cover"
+
                     />
                 </Link>
             </div>
