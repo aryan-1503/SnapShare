@@ -10,9 +10,9 @@ const EventSchema = new Schema({
         type: String,
         required: true
     },
-    categories : {
-        type: Array,
-    },
+    categories : [{
+        type: String,
+    }],
     description: {
         type: String
     },

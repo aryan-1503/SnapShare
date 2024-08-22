@@ -5,6 +5,7 @@ import AuthContext from "../../context/AuthContext.jsx";
 import {IoCloudUploadOutline} from "react-icons/io5";
 import {IoIosAdd} from "react-icons/io";
 import {MdOutlineDelete} from "react-icons/md";
+import axios from "axios";
 
 const EditSingleEvent = () => {
 
@@ -20,12 +21,25 @@ const EditSingleEvent = () => {
         e.preventDefault()
         fileInputRef.current.click();
     };
+    useEffect(() => {
+        const fetchSingleEvent = async () => {
+            const res = await api.get(`/new-event/${id}`)
+            setEventDetails(res.data.event)
+            setCategories(res.data.event.categories)
+            setFormData({
+                eventName: eventDetails.eventName,
+                eventPhoto: selectedPhoto,
+                eventTime: eventDetails.eventTime,
+                categories: categories
+            })
+        }
+        fetchSingleEvent();
+    }, []);
 
     const [formData, setFormData] = useState({
         eventName: "",
         eventPhoto: selectedPhoto,
         eventTime: "",
-        description: "",
         categories: []
     });
 
@@ -83,15 +97,40 @@ const EditSingleEvent = () => {
     };
 
 
-    useEffect(() => {
-        const fetchSingleEvent = async () => {
-            const res = await api.get(`/new-event/${id}`)
-            setEventDetails(res.data.event)
-            setCategories(res.data.event.categories)
-        }
-        fetchSingleEvent();
-    }, []);
 
+
+
+    const handleSaveChanges = async (e) => {
+        e.preventDefault()
+        const data = new FormData();
+        data.append("eventName",formData.eventName);
+        data.append("eventPhoto",formData.eventPhoto);
+        data.append("eventTime",formData.eventTime);
+        categories.forEach((category) => {
+            data.append('categories[]', category);
+        });
+
+        for (const pair of data.entries()) {
+            console.log(pair[0], pair[1]);
+        }
+
+        try {
+            const res = await axios.patch(`http://localhost:5555/api/new-event/edit-event/${id}`, data,{
+                headers: {"Content-Type":'multipart/form-data'},
+                withCredentials: true
+            })
+            alert(res.data.message)
+            console.log(res.data)
+        }catch (e) {
+            console.log(e)
+        }
+
+    }
+
+    useEffect(() => {
+        console.log("EventDetails : ",eventDetails)
+        console.log(formData)
+    }, [eventDetails]);
 
     return (
         <div className="w-screen h-screen bg-yellow-50 flex justify-evenly items-center">
@@ -100,13 +139,13 @@ const EditSingleEvent = () => {
             </Link>
             <div className="w-1/3 flex flex-col gap-4 justify-center items-center hover:rounded hover:shadow-2xl p-4">
                 <div className="text-3xl text-yellow-950">Edit Details</div>
-                <form action="" className="flex flex-col gap-4 w-full">
+                <form onSubmit={handleSaveChanges} className="flex flex-col gap-4 w-full">
                     <input
                         type="text"
                         value={formData.eventName}
                         name="eventName"
                         onChange={handleChange}
-                        placeholder={eventDetails.eventName}
+                        placeholder="Event Name"
                         className="w-full text-lg pl-2 bg-yellow-50 border-2 border-amber-950 p-1 placeholder:text-yellow-800"
                     />
                     <div className="border-2 border-yellow-950 p-1 text-yellow-950">
@@ -136,6 +175,7 @@ const EditSingleEvent = () => {
                             id="eventDate"
                             className="bg-yellow-50 pl-3"
                             onChange={handleChange}
+                            placeholder={eventDetails.eventTime}
                             required
                         />
                     </label>
@@ -159,7 +199,7 @@ const EditSingleEvent = () => {
                         <ol className="overflow-y-scroll max-h-20 scrollbar scrollbar-track-yellow-50">
                             {categories.length > 0 ? categories.map((category, index) => (
                                 <li key={index} className="flex items-center justify-between gap-8 text-lg font-light pl-2">
-                                    - {category} <button onClick={() => handleDelete(index)}><MdOutlineDelete className="text-xl" /></button>
+                                    - {category} <button type="button" onClick={() => handleDelete(index)}><MdOutlineDelete className="text-xl" /></button>
                                 </li>
                             )) : (
                                 <div className="font-light text-xl pl-2">
@@ -168,6 +208,7 @@ const EditSingleEvent = () => {
                             )}
                         </ol>
                     </div>
+                    <button type="submit" className="p-2 flex justify-center items-center bg-yellow-950 rounded-md font-[500] text-[18px] text-[#FFFFF0] hover:transition ease-in delay-150 hover:shadow-2xl active:scale-95">Save Changes</button>
                 </form>
             </div>
 

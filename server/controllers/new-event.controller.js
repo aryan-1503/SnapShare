@@ -54,4 +54,36 @@ const getSingleEvent = async (req,res) => {
     }
 }
 
-export { createNewEvent, getSingleEvent }
+const updateSingleEvent = async (req, res) => {
+    const { id } = req.params;
+    const { eventName, categories, description, eventTime } = req.body;
+
+    const eventPhoto = req.file;
+
+    try {
+        const updatedData = {
+            eventName,
+            categories,
+            description,
+            eventTime
+        };
+
+        if (eventPhoto) {
+            updatedData.eventPhoto = encodeURIComponent(eventPhoto.path);
+        }
+
+        console.log(updatedData)
+        const updatedEvent = await eventModel.findByIdAndUpdate(id, updatedData, { new: true });
+
+        if (!updatedEvent) {
+            return res.status(404).json({ message: "Event not found" });
+        }
+
+        return res.status(200).json({ message: "Event updated successfully", event: updatedEvent });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "Internal Server Error" });
+    }
+};
+
+export { createNewEvent, getSingleEvent, updateSingleEvent }

@@ -19,8 +19,7 @@ app.use(cors({
 }))
 
 app.use(express.json());
-
-app.use(urlencoded({ extended:false }))
+app.use(urlencoded({ extended:true }))
 app.use(cookieParser());
 app.use('/events', express.static('events'));
 

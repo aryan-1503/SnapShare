@@ -40,7 +40,7 @@ const AllEvents = () => {
                             <div className="relative">
                                 <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                                     <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                                     </svg>
                                 </div>
                                 <input type="search" id="default-search" className="block w-full p-4 ps-10 text-sm bg-yellow-50 text-gray-900 border border-yellow-950 rounded-md focus:ring-yellow-950 focus:border-yellow-950 placeholder:text-yellow-800" placeholder="Search Event" required />
@@ -57,7 +57,7 @@ const AllEvents = () => {
                                     <img src={`http://localhost:5555/${decodeURIComponent(event.eventPhoto)}`} alt="" className="w-[270px] h-[240px] rounded"/>
                                     <div className="flex justify-between items-center mt-2">
                                         <div className="text-2xl font-bold">{event.eventName}</div>
-                                        <div className="bg-yellow-200 px-1">Jan 2024</div>
+                                        <div className="bg-yellow-200 px-1">{event.eventTime ? event.eventTime : "NA"}</div>
                                     </div>
                                     <div className="mt-2 text-lg">
                                         {event.description}

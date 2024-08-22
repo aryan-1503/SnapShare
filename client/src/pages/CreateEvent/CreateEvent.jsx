@@ -1,15 +1,13 @@
-import React, { useState, useRef, useEffect } from 'react';
-import {Link, useNavigate} from "react-router-dom";
+import React, { useState, useRef } from 'react';
+import { Link, useNavigate } from "react-router-dom";
 import Event from "../../assets/event.jpg";
 import { IoCloudUploadOutline } from "react-icons/io5";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { IoIosAdd } from "react-icons/io";
 import { MdOutlineDelete } from "react-icons/md";
-import {api} from "../../api/base.js";
 import axios from "axios";
 
 const CreateEvent = () => {
-
     const navigate = useNavigate();
     const [selectedImage, setSelectedImage] = useState(null);
     const [categories, setCategories] = useState([]);
@@ -21,7 +19,6 @@ const CreateEvent = () => {
         eventPhoto: selectedImage,
         eventTime: "",
         description: "",
-        categories: categories
     });
 
     const handleFileClick = () => {
@@ -64,7 +61,11 @@ const CreateEvent = () => {
         data.append('eventPhoto', formData.eventPhoto);
         data.append('eventTime', formData.eventTime);
         data.append('description', formData.description);
-        data.append('categories', formData.categories);
+
+        // Add each category separately to FormData
+        categories.forEach((category) => {
+            data.append('categories[]', category);
+        });
 
         try {
             const res = await axios.post("http://localhost:5555/api/new-event/create", data, {
@@ -81,16 +82,11 @@ const CreateEvent = () => {
         }
     };
 
-
     const handleAdd = (e) => {
         e.preventDefault();
         if (categoryInput.trim() !== '') {
             const updatedCategories = [...categories, categoryInput];
             setCategories(updatedCategories);
-            setFormData({
-                ...formData,
-                categories: updatedCategories
-            });
             setCategoryInput('');
         }
     };
@@ -98,10 +94,6 @@ const CreateEvent = () => {
     const handleDelete = (index) => {
         const updatedCategories = categories.filter((_, i) => i !== index);
         setCategories(updatedCategories);
-        setFormData({
-            ...formData,
-            categories: updatedCategories
-        });
     };
 
     const handleDragOver = (e) => {
@@ -136,7 +128,6 @@ const CreateEvent = () => {
                         src={Event}
                         alt="Event"
                         className="lg:h-[100%] object-cover"
-
                     />
                 </Link>
             </div>

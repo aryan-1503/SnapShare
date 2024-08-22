@@ -28,9 +28,6 @@ function EventPage() {
         fetchEvent()
     }, []);
 
-    useEffect(() => {
-        console.log("Event : ",event)
-    }, [event]);
 
     const handleShareMemories = () => {
         navigate(`/event/${user.username}/${event._id}/upload`)
