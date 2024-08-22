@@ -72,7 +72,6 @@ const updateSingleEvent = async (req, res) => {
             updatedData.eventPhoto = encodeURIComponent(eventPhoto.path);
         }
 
-        console.log(updatedData)
         const updatedEvent = await eventModel.findByIdAndUpdate(id, updatedData, { new: true });
 
         if (!updatedEvent) {

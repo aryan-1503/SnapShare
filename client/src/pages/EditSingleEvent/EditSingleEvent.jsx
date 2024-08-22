@@ -115,9 +115,10 @@ const EditSingleEvent = () => {
         }
 
         try {
-            const res = await axios.patch(`http://localhost:5555/api/new-event/edit-event/${id}`, data,{
-                headers: {"Content-Type":'multipart/form-data'},
-                withCredentials: true
+            const res = await api.patch(`/new-event/edit-event/${id}`, data,{
+                headers: {
+                    "Content-Type":'multipart/form-data'
+                },
             })
             alert(res.data.message)
             console.log(res.data)
