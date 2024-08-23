@@ -13,6 +13,7 @@ import { api } from "./api/base.js";
 import EditSingleEvent from "./pages/EditSingleEvent/EditSingleEvent.jsx";
 import EventPage from "./pages/EventPage/EventPage.jsx";
 import EventPageLayout from "./layouts/EventPageLayout.jsx";
+import Profile from "./pages/Profile/Profile.jsx";
 
 function App() {
     const [user, setUser] = useState(null);
@@ -54,7 +55,7 @@ function App() {
                             <Route path="/new-event" element={<CreateEvent />} />
                             <Route path="/event/all" element={<AllEvents />} />
                             <Route path="/edit-event/:id" element={<EditSingleEvent />} />
-                            <Route path="/profile" element={<div className="h-screen text-5xl bg-yellow-50">Profile</div>} />
+                            <Route path="/profile" element={<Profile />} />
                         </Route>
                     ) : (
                         <>

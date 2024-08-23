@@ -9,3 +9,9 @@ body{
   width: 100vw;
   font-family: Dubai,serif;
 }
+
+@media (min-width: 481px) and (max-width: 1600px){
+  body{
+    overflow-x: hidden;
+  }
+}

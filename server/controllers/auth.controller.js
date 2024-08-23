@@ -138,7 +138,7 @@ const me = async (req, res) => {
         return res.status(401).json({ msg: "data Unauthorized" });
     }
     const id = data.id
-    const user = await UserModel.findById(id);
+    const user = await UserModel.findById(id).select("-password");
     res.status(200).json({ user });
 }
 //
