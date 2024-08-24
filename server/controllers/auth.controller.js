@@ -132,7 +132,11 @@ const me = async (req, res) => {
     if (!token) {
         return res.status(401).json({ msg: "Unauthorized" });
     }
-    const data = await jwt.verify(token, process.env.SECRET);
+    const data = await jwt.verify(token, process.env.SECRET,{
+        httpOnly: true,
+        secure: true,
+        sameSite: "None"
+    });
 
     if (!data) {
         return res.status(401).json({ msg: "data Unauthorized" });
