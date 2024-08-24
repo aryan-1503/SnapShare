@@ -28,7 +28,7 @@ const EventQrCodePage = () => {
                 const res = await axios.post("https://cors-anywhere.herokuapp.com/https://api.qr-code-generator.com/v1/create?access-token=e435ZYMcafFm24E63zgmNgxlqEdG8ZUsah70U_cZROULfeso-D2gPrq8za6cKKK4", {
                     "frame_name": "no-frame",
                     "qr_code_text": `http://localhost:5173/event-qr-code/${id}`,
-                    "image_format": "SVG",
+                    "image_format": "JPG",
                     "qr_code_logo": "scan-me-square"
                 });
                 setQrCode(res.data);
@@ -60,6 +60,7 @@ const EventQrCodePage = () => {
                                     className="w-full h-full"
                                 />
                             )}
+                            <img src={qrCode} alt="opps"/>
                         </div>
                     </div>
                 )}
