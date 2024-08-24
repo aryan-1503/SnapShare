@@ -6,6 +6,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import { IoIosAdd } from "react-icons/io";
 import { MdOutlineDelete } from "react-icons/md";
 import axios from "axios";
+import {api} from "../../api/base.js";
 
 const CreateEvent = () => {
     const navigate = useNavigate();
@@ -61,19 +62,17 @@ const CreateEvent = () => {
         data.append('eventPhoto', formData.eventPhoto);
         data.append('eventTime', formData.eventTime);
         data.append('description', formData.description);
-
-        // Add each category separately to FormData
         categories.forEach((category) => {
             data.append('categories[]', category);
         });
 
         try {
-            const res = await axios.post("http://localhost:5555/api/new-event/create", data, {
+            const res = await api.post("/new-event/create", data, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
-                },
-                withCredentials: true
+                }
             });
+
             console.log(res.data);
             alert(res.data.message);
             // navigate("/")

@@ -50,7 +50,7 @@ const Navbar = () => {
                     {
                         user ? (
                             <>
-                                <Link to="/about-us" className="hover:underline duration-1000 ease-in active:scale-95">About</Link>
+                                <Link to="/" className="hover:underline duration-1000 ease-in active:scale-95">Home</Link>
                                 <Link to="/event/all" className="hover:underline active:scale-95">My Events</Link>
                                 <Link to="/profile" className="flex justify-center items-center gap-1 hover:underline active:scale-95"><FaRegUser className="text-[16px]" />Profile</Link>
                                 <Link to="/" className="hover:underline active:scale-95" onClick={handleLogout}>Logout</Link>

@@ -24,10 +24,10 @@ const AllEvents = () => {
         fetchEvents();
     }, []);
     return (
-        <div className="bg-yellow-50 flex justify-center items-center p-16">
+        <div className="bg-yellow-50 flex justify-center items-center p-16 mxs:p-8">
             <div className=" flex flex-col justify-center items-center">
                 <div className="flex justify-between items-center gap-20">
-                    <div className="mxs:hidden">
+                    <div className="mxs:hidden msm:hidden">
                         <img src={AllEvent} alt="" className="w-[370px] h-[240px] object-cover rounded-lg shadow-[0_5px_15px_rgba(0, 0, 0, 0.35)] hover:scale-105 duration-200 ease-in cursor-pointer hover:shadow-2xl"/>
                     </div>
                     <div>
@@ -49,11 +49,11 @@ const AllEvents = () => {
                         </form>
                     </div>
                 </div>
-                <div className="grid grid-cols-3 gap-2 mt-12 mxs:grid-cols-1 msm:grid-cols-2 place-items-center">
+                <div className="grid grid-cols-3 gap-2 mt-12 mxs:grid-cols-1 msm:grid-cols-1 mmd:grid-cols-2 place-items-center">
                     {loading ? <Loading /> : (
                         <>
                             {events && events.map((event,index) => (
-                                <Link key={index} to={`http://localhost:5173/edit-event/${event._id}`} className="p-3 w-[290px] h-[370px] hover:scale-105 duration-200 ease-in hover:shadow-2xl mxs:w-[250px] mxs:h-[390px] mxs:shadow-2xl msm:w-[190px] msm:h-[350px] mmd:h-[370px] mmd:w-[300px] mlg:w-[270px] mlg:h-[37  0px]">
+                                <Link key={index} to={`http://localhost:5173/event-qr-code/${event._id}`} className="p-3 w-[290px] h-[370px] hover:scale-105 duration-200 ease-in hover:shadow-2xl mxs:w-[250px] mxs:h-[390px] mxs:shadow-2xl msm:w-[270px] msm:h-[350px] mmd:h-[370px] mmd:w-[300px] mlg:w-[270px] mlg:h-[37  0px]">
                                     <img src={`http://localhost:5555/${decodeURIComponent(event.eventPhoto)}`} alt="" className="w-[270px] h-[240px] rounded"/>
                                     <div className="flex justify-between items-center mt-2">
                                         <div className="text-2xl font-bold">{event.eventName}</div>

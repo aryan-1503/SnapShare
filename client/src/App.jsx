@@ -14,6 +14,7 @@ import EditSingleEvent from "./pages/EditSingleEvent/EditSingleEvent.jsx";
 import EventPage from "./pages/EventPage/EventPage.jsx";
 import EventPageLayout from "./layouts/EventPageLayout.jsx";
 import Profile from "./pages/Profile/Profile.jsx";
+import EventQrCodePage from "./pages/EventQrCodePage/EventQrCodePage.jsx";
 
 function App() {
     const [user, setUser] = useState(null);
@@ -55,6 +56,7 @@ function App() {
                             <Route path="/new-event" element={<CreateEvent />} />
                             <Route path="/event/all" element={<AllEvents />} />
                             <Route path="/edit-event/:id" element={<EditSingleEvent />} />
+                            <Route path="/event-qr-code/:id" element={<EventQrCodePage />} />
                             <Route path="/profile" element={<Profile />} />
                         </Route>
                     ) : (
