@@ -27,12 +27,11 @@ const EventQrCodePage = () => {
                 setLoading(true);
                 const res = await axios.post("https://cors-anywhere.herokuapp.com/https://api.qr-code-generator.com/v1/create?access-token=e435ZYMcafFm24E63zgmNgxlqEdG8ZUsah70U_cZROULfeso-D2gPrq8za6cKKK4", {
                     "frame_name": "no-frame",
-                    "qr_code_text": `http://localhost:5173/event-qr-code/${id}`,
+                    "qr_code_text": `https://snap-share-xi.vercel.app/event-qr-code/${id}`,
                     "image_format": "SVG",
                     "qr_code_logo": "scan-me-square"
                 });
                 setQrCode(res.data);
-                console.log(res.data)
             } catch (e) {
                 console.log(e);
             } finally {
@@ -47,7 +46,9 @@ const EventQrCodePage = () => {
     return (
         <>
             {loading ?
-                <Loading/> : (
+                <div className="bg-yellow-50 h-screen flex justify-center items-center">
+                    <Loading/>
+                </div> : (
                     <div className="w-screen bg-yellow-50 flex justify-evenly items-center">
                         <div className="flex justify-center items-center">
                             <Link to={`http://localhost:5173/event/${user.username}/${id}`} className="p-2">
@@ -58,10 +59,12 @@ const EventQrCodePage = () => {
                             {qrCode && (
                                 <div
                                     dangerouslySetInnerHTML={{ __html: qrCode }}
-                                    className="w-full h-full"
+                                    className="w-[350px] h-full"
                                 />
+
                             )}
-                            {/*<img src={`https://api.qrserver.com/v1/create-qr-code/?data=https://snap-share-xi.vercel.app/event/${user.username}/${id}&amp;size=100x100`} alt="opps"/>*/}
+                            <Link to={`https://snap-share-xi.vercel.app/event/${user.username}/${id}`}> Open Link</Link>
+                            {/*<img src={`https://api.qrserver.com/v1/create-qr-code/?data=https://snap-share-xi.vercel.app/event/${user.username}/${id}&amp;size=100x100`} alt="opps" className=""/>*/}
                         </div>
                     </div>
                 )}
