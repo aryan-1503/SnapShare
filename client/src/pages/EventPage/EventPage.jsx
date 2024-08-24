@@ -39,7 +39,7 @@ function EventPage() {
             <div className="title text-4xl text-center text-yellow-950">
                 Welcome to the {event.eventName}
             </div>
-            <img src={`http://localhost:5555/${decodeURIComponent(event.eventPhoto)}`} alt="No preview available" className="w-[330px] h-[270px] object-cover rounded-md shadow-2xl"/>
+            <img src={`https://snapshare-avzz.onrender.com/${decodeURIComponent(event.eventPhoto)}`} alt="No preview available" className="w-[330px] h-[270px] object-cover rounded-md shadow-2xl"/>
             <div className="uppercase font-cinzel font-[500] text-md text-justify">
                 Share your memories effortlessly. Upload and view wedding
                 photos from all guests in one place. Make every moment

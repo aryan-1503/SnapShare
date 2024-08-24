@@ -140,7 +140,7 @@ const EditSingleEvent = () => {
             </div>
             <div className="w-screen h-screen bg-yellow-50 flex justify-evenly items-center mxs:hidden msm:hidden mmd:hidden">
                 <Link to={`http://localhost:5173/event/${user.username}/${id}`} className="p-1">
-                    <iframe src={`http://localhost:5173/event/${user.username}/${id}`} frameBorder="0" title="Preview" className="h-[90vh] w-[350px] border-2 border-yellow-950" ></iframe>
+                    <iframe src={`https://snap-share-xi.vercel.app/event/${user.username}/${id}`} frameBorder="0" title="Preview" className="h-[90vh] w-[350px] border-2 border-yellow-950" ></iframe>
                 </Link>
                 <div className="w-1/3 flex flex-col gap-4 justify-center items-center hover:rounded hover:shadow-2xl p-4">
                     <div className="text-3xl text-yellow-950">Edit Details</div>
