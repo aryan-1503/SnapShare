@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const SERVER_BASE_URL = "http://localhost:5555/api/"
+const SERVER_BASE_URL = "https://snapshare-avzz.onrender.com/api/"
 
 const api = axios.create({
     headers: {

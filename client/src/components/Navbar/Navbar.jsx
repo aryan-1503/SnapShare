@@ -6,6 +6,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import {FaRegUser} from "react-icons/fa";
 import AuthContext from "../../context/AuthContext.jsx";
 import axios from "axios";
+import {api} from "../../api/base.js";
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -29,7 +30,7 @@ const Navbar = () => {
 
     const handleLogout = async () => {
         try{
-            const res = await axios.post("http://localhost:5555/api/auth/logout",{},{withCredentials :true})
+            const res = await api.post("/auth/logout",{},{withCredentials :true})
             if (res.status === 200) {
                 alert(res.data.message)
                 setUser(null);
