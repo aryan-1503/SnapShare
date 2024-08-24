@@ -33,7 +33,7 @@ function App() {
             }
         };
         fetchUserData();
-    }, [user]);
+    }, []);
 
     if (loading) {
         return <div className="bg-yellow-50"></div>;
