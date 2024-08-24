@@ -32,6 +32,7 @@ const EventQrCodePage = () => {
                     "qr_code_logo": "scan-me-square"
                 });
                 setQrCode(res.data);
+                console.log(res.data)
             } catch (e) {
                 console.log(e);
             } finally {
