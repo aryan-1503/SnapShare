@@ -16,11 +16,15 @@ await connectToDB();
 app.use(cors({
     origins: ['http://localhost:5173','https://snap-share-xi.vercel.app/'],
     credentials: true,
+    sameSite: "None"
 }))
 
 app.use(express.json());
 app.use(urlencoded({ extended:true }))
-app.use(cookieParser());
+app.use(cookieParser({
+    httpOnly: true,
+    secure: true,
+}));
 app.use('/events', express.static('events'));
 
 //Routers
