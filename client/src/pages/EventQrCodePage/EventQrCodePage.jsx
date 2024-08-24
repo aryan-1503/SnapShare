@@ -24,7 +24,7 @@ const EventQrCodePage = () => {
         const generateQrCode = async () => {
             try {
                 setLoading(true)
-                const res = await axios.post("https://api.qr-code-generator.com/v1/create?access-token=e435ZYMcafFm24E63zgmNgxlqEdG8ZUsah70U_cZROULfeso-D2gPrq8za6cKKK4",{
+                const res = await axios.post("https://cors-anywhere.herokuapp.com/https://api.qr-code-generator.com/v1/create?access-token=e435ZYMcafFm24E63zgmNgxlqEdG8ZUsah70U_cZROULfeso-D2gPrq8za6cKKK4",{
                     "frame_name": "no-frame",
                     "qr_code_text": `http://localhost:5173/event-qr-code/${id}`,
                     "image_format": "SVG",
