@@ -33,7 +33,7 @@ function App() {
             }
         };
         fetchUserData();
-    }, []);
+    }, [user]);
 
     if (loading) {
         return <div className="bg-yellow-50"></div>;
@@ -49,7 +49,7 @@ function App() {
                         <Route path="/contact-us" element={<div className="h-screen text-5xl bg-yellow-50">Contact</div>} />
                     </Route>
                     <Route element={<EventPageLayout />}>
-                        <Route path={`/event/${user.username}/:id`} element={<EventPage />} />
+                        <Route path={`/event/${user && user.username}/:id`} element={<EventPage />} />
                     </Route>
                     {user ? (
                         <Route element={<RootLayout />}>
