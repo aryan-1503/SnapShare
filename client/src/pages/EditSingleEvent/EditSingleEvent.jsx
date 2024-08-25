@@ -23,7 +23,7 @@ const EditSingleEvent = () => {
     };
     useEffect(() => {
         const fetchSingleEvent = async () => {
-            const res = await api.get(`/new-event/${id}`)
+            const res = await api.get(`/event/${id}`)
             setEventDetails(res.data.event)
             setCategories(res.data.event.categories)
             setFormData({
@@ -115,7 +115,7 @@ const EditSingleEvent = () => {
         }
 
         try {
-            const res = await api.patch(`/new-event/edit-event/${id}`, data,{
+            const res = await api.patch(`/event/edit-event/${id}`, data,{
                 headers: {
                     "Content-Type":'multipart/form-data'
                 },

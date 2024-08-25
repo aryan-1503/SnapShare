@@ -67,7 +67,7 @@ const CreateEvent = () => {
         });
 
         try {
-            const res = await api.post("/new-event/create", data, {
+            const res = await api.post("/event/create", data, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

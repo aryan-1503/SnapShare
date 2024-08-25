@@ -4,21 +4,24 @@ import RootLayout from "./layouts/RootLayout.jsx";
 import Register from "./pages/Register/Register.jsx";
 import Login from "./pages/Login/Login.jsx";
 import Home from "./pages/Home/Home.jsx";
-import { useEffect, useState } from "react";
+import { useEffect, useState, lazy, Suspense } from "react";
 import AuthContext from "./context/AuthContext.jsx";
 import Verify from "./pages/Verify/Verify.jsx";
-import CreateEvent from "./pages/CreateEvent/CreateEvent.jsx";
-import AllEvents from "./pages/AllEvents/AllEvents.jsx";
 import { api } from "./api/base.js";
-import EditSingleEvent from "./pages/EditSingleEvent/EditSingleEvent.jsx";
-import EventPage from "./pages/EventPage/EventPage.jsx";
-import EventPageLayout from "./layouts/EventPageLayout.jsx";
-import Profile from "./pages/Profile/Profile.jsx";
-import EventQrCodePage from "./pages/EventQrCodePage/EventQrCodePage.jsx";
+import Loading from "./components/Loading/Loading.jsx";
+
+
+const CreateEvent = lazy(() => import("./pages/CreateEvent/CreateEvent.jsx"));
+const AllEvents = lazy(() => import("./pages/AllEvents/AllEvents.jsx"));
+const EditSingleEvent = lazy(() => import("./pages/EditSingleEvent/EditSingleEvent.jsx"));
+const EventPage = lazy(() => import("./pages/EventPage/EventPage.jsx"));
+const EventPageLayout = lazy(() => import("./layouts/EventPageLayout.jsx"));
+const Profile = lazy(() => import("./pages/Profile/Profile.jsx"));
+const EventQrCodePage = lazy(() => import("./pages/EventQrCodePage/EventQrCodePage.jsx"));
 
 function App() {
     const [user, setUser] = useState(null);
-    const [tempUser,setTempUser] = useState(null);
+    const [tempUser, setTempUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -35,10 +38,6 @@ function App() {
         fetchUserData();
     }, []);
 
-    if (loading) {
-        return <div className="bg-yellow-50"></div>;
-    }
-
     return (
         <AuthContext.Provider value={{ user, setUser, tempUser, setTempUser }}>
             <Router>
@@ -48,11 +47,11 @@ function App() {
                         <Route path="/about-us" element={<div className="h-screen text-5xl bg-yellow-50">About</div>} />
                         <Route path="/contact-us" element={<div className="h-screen text-5xl bg-yellow-50">Contact</div>} />
                     </Route>
-                    <Route element={<EventPageLayout />}>
+                    <Route element={<Suspense fallback={<Loading />}><EventPageLayout /></Suspense>}>
                         <Route path={`/event/:id`} element={<EventPage />} />
                     </Route>
                     {user ? (
-                        <Route element={<RootLayout />}>
+                        <Route element={<Suspense fallback={<Loading />}><RootLayout /></Suspense>}>
                             <Route path="/new-event" element={<CreateEvent />} />
                             <Route path="/event/all" element={<AllEvents />} />
                             <Route path="/edit-event/:id" element={<EditSingleEvent />} />

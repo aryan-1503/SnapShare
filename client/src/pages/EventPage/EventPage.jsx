@@ -12,13 +12,14 @@ function EventPage() {
         navigate("/upload");
     };
 
+
     const { id } = useParams()
 
 
     useEffect(() => {
         const fetchEvent = async () => {
             try {
-                const res = await api.get(`/new-event/${id}`)
+                const res = await api.get(`/event/${id}`)
                 setEvent(res.data.event)
             }catch (e) {
                 console.log(e)
@@ -30,7 +31,7 @@ function EventPage() {
 
 
     const handleShareMemories = () => {
-        navigate(`/event/${user.username}/${event._id}/upload`)
+        navigate(`/event/${event._id}/upload`)
     }
 
 

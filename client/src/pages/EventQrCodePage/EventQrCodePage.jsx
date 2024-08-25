@@ -18,7 +18,7 @@ const EventQrCodePage = () => {
     useEffect(() => {
         const fetchSingleEvent = async () => {
             try {
-                const res = await api.get(`/new-event/${id}`);
+                const res = await api.get(`/event/${id}`);
                 setEventDetails(res.data.event);
             } catch (e) {
                 console.log(e);
@@ -28,7 +28,7 @@ const EventQrCodePage = () => {
         const generateQrCode = async () => {
             try {
                 setLoading(true);
-                const res = await axios.post("https://cors-anywhere.herokuapp.com/https://api.qr-code-generator.com/v1/create?access-token=e435ZYMcafFm24E63zgmNgxlqEdG8ZUsah70U_cZROULfeso-D2gPrq8za6cKKK4", {
+                const res = await api.post("/event/generate-qr-code", {
                     "frame_name": "no-frame",
                     "qr_code_text": `https://snap-share-xi.vercel.app/event/${id}`,
                     "image_format": "SVG",
@@ -101,7 +101,7 @@ const EventQrCodePage = () => {
                     <div className="w-screen bg-yellow-50 flex justify-evenly items-center">
                         <div className="flex justify-center items-center">
                             <Link to={`http://localhost:5173/event/${id}`} className="p-2">
-                                <iframe src={`http://localhost:5173/event/${id}`} frameBorder="0" title="Preview" className="h-[90vh] w-[350px] border-2 border-yellow-950"></iframe>
+                                <iframe src={`https://snap-share-xi.vercel.app/event/${id}`} frameBorder="0" title="Preview" className="h-[90vh] w-[350px] border-2 border-yellow-950"></iframe>
                             </Link>
                         </div>
                         <div className="flex flex-col gap-8">
@@ -114,7 +114,7 @@ const EventQrCodePage = () => {
                             )}
                             {/*<img src={`https://api.qrserver.com/v1/create-qr-code/?data=https://snap-share-xi.vercel.app/event/${user.username}/${id}&amp;size=100x100`} alt="opps" className="w-[350px]"/>*/}
                             <div className="grid gap-2 grid-cols-2 place-items-center">
-                                <button className="w-[8rem] p-2 flex gap-2 justify-center items-center bg-yellow-950 rounded-md font-[500] text-[18px] text-[#FFFFF0] hover:bg-yellow-800 hover:transition ease-in delay-150 hover:shadow-2xl active:scale-95" onClick={() => {navigate(`/event/${user && user.username}/:id`)}}>Open Link <FiExternalLink className="mb-1" /></button>
+                                <button className="w-[8rem] p-2 flex gap-2 justify-center items-center bg-yellow-950 rounded-md font-[500] text-[18px] text-[#FFFFF0] hover:bg-yellow-800 hover:transition ease-in delay-150 hover:shadow-2xl active:scale-95" onClick={() => {navigate(`/event/:${id}`)}}>Open Link <FiExternalLink className="mb-1" /></button>
                                 <button className="w-[8rem] p-2 flex justify-center items-center bg-yellow-950 rounded-md font-[500] text-[18px] text-[#FFFFF0] hover:bg-yellow-800 hover:transition ease-in delay-150 hover:shadow-2xl active:scale-95" onClick={handleCopyURL}>Copy URL</button>
                                 <button className="w-[8rem] p-2 flex gap-2 justify-center items-center bg-yellow-950 rounded-md font-[500] text-[18px] text-[#FFFFF0] hover:bg-yellow-800 hover:transition ease-in delay-150 hover:shadow-2xl active:scale-95" onClick={handleDownloadQrCode}>QR Code <GoDownload className="mb-1" /></button>
                                 <button className="w-[8rem] p-2 flex justify-center items-center bg-yellow-950 rounded-md font-[500] text-[18px] text-[#FFFFF0] hover:bg-yellow-800 hover:transition ease-in delay-150 hover:shadow-2xl active:scale-95" onClick={() => navigate(`/edit-event/${id}`)}>Edit Event</button>
