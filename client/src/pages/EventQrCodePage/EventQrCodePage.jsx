@@ -30,7 +30,7 @@ const EventQrCodePage = () => {
                 setLoading(true);
                 const res = await axios.post("https://cors-anywhere.herokuapp.com/https://api.qr-code-generator.com/v1/create?access-token=e435ZYMcafFm24E63zgmNgxlqEdG8ZUsah70U_cZROULfeso-D2gPrq8za6cKKK4", {
                     "frame_name": "no-frame",
-                    "qr_code_text": `https://snap-share-xi.vercel.app/event-qr-code/${id}`,
+                    "qr_code_text": `https://snap-share-xi.vercel.app/event/${id}`,
                     "image_format": "SVG",
                     "qr_code_logo": "scan-me-square"
                 });
@@ -47,7 +47,7 @@ const EventQrCodePage = () => {
     }, [id]);
 
     const handleCopyURL = () => {
-        const urlToCopy = `https://snap-share-xi.vercel.app/event/${user && user.username}/${id}`;
+        const urlToCopy = `https://snap-share-xi.vercel.app/event/${id}`;
         navigator.clipboard.writeText(urlToCopy)
             .then(() => {
                 alert("URL copied")
