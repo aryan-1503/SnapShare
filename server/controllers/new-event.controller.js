@@ -87,7 +87,7 @@ const updateSingleEvent = async (req, res) => {
 
 const generateQrCode = async (req,res) => {
     try {
-        const response = await axios.post('https://api.qr-code-generator.com/v1/create?access-token=your-access-token', req.body);
+        const response = await axios.post('https://api.qr-code-generator.com/v1/create?access-token=e435ZYMcafFm24E63zgmNgxlqEdG8ZUsah70U_cZROULfeso-D2gPrq8za6cKKK4', req.body);
         res.status(200).json(response.data);
     }catch (e) {
         console.log(e)
