@@ -49,7 +49,7 @@ function App() {
                         <Route path="/contact-us" element={<div className="h-screen text-5xl bg-yellow-50">Contact</div>} />
                     </Route>
                     <Route element={<EventPageLayout />}>
-                        <Route path={`/event/${user && user.username}/:id`} element={<EventPage />} />
+                        <Route path={`/event/:id`} element={<EventPage />} />
                     </Route>
                     {user ? (
                         <Route element={<RootLayout />}>
