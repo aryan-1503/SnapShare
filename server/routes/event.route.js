@@ -1,8 +1,13 @@
 import { Router } from "express";
 import multer from "multer";
-import {createNewEvent, getSingleEvent, updateSingleEvent} from "../controllers/new-event.controller.js";
+import {
+    createNewEvent,
+    generateQrCode,
+    getSingleEvent,
+    updateSingleEvent
+} from "../controllers/new-event.controller.js";
 
-const newEventRoute = Router();
+const eventRoute = Router();
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -16,9 +21,10 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-newEventRoute
+eventRoute
     .post("/create", upload.single('eventPhoto'), createNewEvent)
     .get("/:id",getSingleEvent)
     .patch("/edit-event/:id", upload.single('eventPhoto'),updateSingleEvent)
+    .post("/generate-qr-code", generateQrCode)
 
-export { newEventRoute };
+export { eventRoute };

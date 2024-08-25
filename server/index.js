@@ -4,7 +4,7 @@ import cookieParser from "cookie-parser"
 import "dotenv/config"
 import { connectToDB } from "./utils/connectToDb.js";
 import { authRouter } from "./routes/auth.route.js";
-import { newEventRoute } from "./routes/new-event.route.js";
+import { eventRoute } from "./routes/event.route.js";
 import { userRoute } from "./routes/user.route.js";
 
 
@@ -30,7 +30,7 @@ app.use('/events', express.static('events'));
 //Routers
 
 app.use("/api/auth",authRouter)
-app.use("/api/new-event/",newEventRoute)
+app.use("/api/event/",eventRoute)
 app.use("/api/user",userRoute)
 
 app.get("/", (req, res) => {

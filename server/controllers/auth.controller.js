@@ -130,7 +130,7 @@ const verify = async (req, res) => {
 const me = async (req, res) => {
     const { token } = req.cookies;
     if (!token) {
-        return res.status(401).json({ msg: "Unauthorized" });
+        return res.status(200).json({ msg: "Token not Present" });
     }
     const data = await jwt.verify(token, process.env.SECRET,{
         httpOnly: true,

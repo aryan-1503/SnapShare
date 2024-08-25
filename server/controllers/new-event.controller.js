@@ -1,7 +1,7 @@
 import {eventModel} from "../models/EventSchema.js";
 import jwt from "jsonwebtoken";
 import {UserModel} from "../models/UserSchema.js";
-
+import axios from "axios";
 
 const createNewEvent = async (req, res) => {
     const { token } = req.cookies;
@@ -85,4 +85,13 @@ const updateSingleEvent = async (req, res) => {
     }
 };
 
-export { createNewEvent, getSingleEvent, updateSingleEvent }
+const generateQrCode = async (req,res) => {
+    try {
+        const response = await axios.post('https://api.qr-code-generator.com/v1/create?access-token=your-access-token', req.body);
+        res.status(200).json(response.data);
+    }catch (e) {
+        console.log(e)
+        res.status(500).json({ message: "Internal Server Error"})
+    }
+}
+export { createNewEvent, getSingleEvent, updateSingleEvent, generateQrCode }
