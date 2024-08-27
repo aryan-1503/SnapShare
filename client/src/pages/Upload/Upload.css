@@ -1,0 +1,161 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Noto+Serif+Georgian:wght@100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Pacifico&family=Satisfy&display=swap');
+
+.upload-wrapper{
+    background-color: #FFFFF0;
+    height: 87vh;
+}
+.upload-container{
+    position: relative;
+    display: flex;
+    /*justify-content: center;*/
+    flex-direction: column;
+    align-items: center;
+}
+.upload-title{
+    text-align: center;
+    font-size: 32px;
+    margin-top: 1rem;
+    font-family: "Dancing Script", serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    letter-spacing: 0.06rem;
+}
+.upload-inputs{
+    width: 80%;
+}
+.upload-inputs form{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 2rem;
+
+}
+.file-label{
+    font-family: "Cinzel", serif;
+    font-weight: 500;
+    text-transform: uppercase;
+
+}
+
+.take-a-photo{
+    display: flex;
+    justify-content: space-between;
+    font-size: 19px;
+}
+
+.preview-btn{
+    margin-top: 0.5rem;
+    background-color: #FFFFF0;
+    display: flex;
+    gap: 1rem;
+    font-size: 18px;
+    padding: 0.4rem 0 0.3rem 0.6rem;
+    border: 2px #483118 solid;
+    border-radius: 0.5rem;
+    font-family: "Cinzel", serif;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.upload-btn{
+    background-color: #483118;
+    color: #F7E7CE;
+    padding: 0.5rem 0;
+    margin-top: 1rem;
+    font-size: 18px;
+    font-weight: 500;
+    border-radius: 0.5rem;
+    font-family: "Cinzel", serif;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border: 1px #faddb3 solid;
+}
+
+.upload-btn button:hover{
+    cursor: pointer;
+
+}
+.upload-btn button:active{
+    transform: scale(0.98);
+    background-color: #6e5840;
+}
+.guidelines{
+    margin-top: 2rem;
+}
+.guideline-title{
+    font-size: 26px;
+    margin: 1rem 0;
+    font-family: "Dancing Script", serif;
+    font-optical-sizing: auto;
+    font-weight: 800;
+    letter-spacing: 0.06rem;
+
+}
+
+input[type="text"]{
+    border: none;
+    border-bottom: 2px solid #483118;
+    background-color: #FFFFF0;
+    height: 2.5rem;
+    font-family: "Cinzel",serif;
+    color: #483118;
+    font-weight: 600;
+    font-size: 16px;
+    padding-left: 0.4rem;
+}
+
+
+input[type="text"]::placeholder{
+    font-family: "Cinzel",serif;
+    color: #6c4926;
+    font-weight: 600;
+    font-size: 16px;
+    padding-left: 0;
+}
+
+input[type="text"]:focus{
+    outline-color: #483118;
+
+    border: #483118 1px solid;
+}
+
+.guideline{
+    font-family: "Cinzel", serif;
+    font-weight: 500;
+    font-size: 14px;
+    margin-left: 1rem;
+}
+
+hr{
+    margin-top: 0.5rem;
+    border: #483118 solid 1px;
+}
+
+.preview{
+    position: absolute;
+    top: 3%;
+    width: 80%;
+    height: auto;
+}
+.get-all-btn{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 0.3rem;
+    margin-bottom: 1rem;
+}
+.get-all-btn button{
+    color: #FFFFF0;
+    font-size: 20px;
+    background-color: #483118;
+    border-radius: 50%;
+    border: none;
+    padding: 0.8rem 0.8rem 0.5rem 0.8rem;
+
+}
+
+@media (max-width: 480px) {
+    .upload-wrapper{
+        height: auto;
+    }
+
+}

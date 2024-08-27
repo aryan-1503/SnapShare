@@ -6,32 +6,41 @@ import {IoCloudUploadOutline} from "react-icons/io5";
 import {IoIosAdd} from "react-icons/io";
 import {MdOutlineDelete} from "react-icons/md";
 import axios from "axios";
+import Loading from "../../components/Loading/Loading.jsx";
 
 const EditSingleEvent = () => {
 
     const { id } = useParams();
     const { user } = useContext(AuthContext);
-    const [eventDetails, setEventDetails] = useState([]);
+    const [eventDetails, setEventDetails] = useState(null);
     const fileInputRef = React.useRef();
     const [selectedPhoto,setSelectedPhoto] = useState(null);
     const [categories,setCategories] = useState([]);
     const [categoryInput, setCategoryInput] = useState('');
-
+    const [loading, setLoading] = useState(false)
     const handleClick = (e) => {
         e.preventDefault()
         fileInputRef.current.click();
     };
     useEffect(() => {
         const fetchSingleEvent = async () => {
-            const res = await api.get(`/event/${id}`)
-            setEventDetails(res.data.event)
-            setCategories(res.data.event.categories)
-            setFormData({
-                eventName: eventDetails.eventName,
-                eventPhoto: selectedPhoto,
-                eventTime: eventDetails.eventTime,
-                categories: categories
-            })
+            try{
+                setLoading(true)
+                const res = await api.get(`/event/${id}`)
+                setEventDetails(res.data.event)
+                setCategories(res.data.event.categories)
+                setFormData({
+                    eventName: eventDetails.eventName,
+                    eventPhoto: selectedPhoto,
+                    eventTime: eventDetails.eventTime,
+                    categories: categories
+                })
+            }catch (e) {
+                console.log(e)
+            }finally {
+                setLoading(false)
+            }
+
         }
         fetchSingleEvent();
     }, []);
@@ -133,16 +142,21 @@ const EditSingleEvent = () => {
         console.log(formData)
     }, [eventDetails]);
 
+
+    if (loading){
+        return (
+            <div className="w-screen h-screen">
+                <Loading />
+            </div>
+        )
+    }
     return (
         <>
-            <div className="hidden mxs:block msm:block mmd:block">
-                Use Laptop
-            </div>
-            <div className="w-screen h-screen bg-yellow-50 flex justify-evenly items-center mxs:hidden msm:hidden mmd:hidden">
-                <Link to={`http://localhost:5173/event/${id}`} className="p-1">
+            <div className="w-screen h-screen bg-yellow-50 flex justify-evenly items-center msm:hidden mmd:hidden">
+                <Link to={`http://localhost:5173/event/${id}`} className="p-1 mxs:hidden">
                     <iframe src={`https://snap-share-xi.vercel.app/event/${id}`} frameBorder="0" title="Preview" className="h-[90vh] w-[350px] border-2 border-yellow-950" ></iframe>
                 </Link>
-                <div className="w-1/3 flex flex-col gap-4 justify-center items-center hover:rounded hover:shadow-2xl p-4">
+                <div className="w-1/3 flex flex-col gap-4 justify-center items-center hover:rounded hover:shadow-2xl p-4 mxs:w-full">
                     <div className="text-3xl text-yellow-950">Edit Details</div>
                     <form onSubmit={handleSaveChanges} className="flex flex-col gap-4 w-full">
                         <input

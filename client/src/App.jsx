@@ -9,6 +9,7 @@ import AuthContext from "./context/AuthContext.jsx";
 import Verify from "./pages/Verify/Verify.jsx";
 import { api } from "./api/base.js";
 import Loading from "./components/Loading/Loading.jsx";
+import Upload from "./pages/Upload/Upload.jsx";
 
 
 const CreateEvent = lazy(() => import("./pages/CreateEvent/CreateEvent.jsx"));
@@ -49,6 +50,7 @@ function App() {
                     </Route>
                     <Route element={<Suspense fallback={<Loading />}><EventPageLayout /></Suspense>}>
                         <Route path={`/event/:id`} element={<EventPage />} />
+                        <Route path={`/event/:id/upload`} element={<Upload />} />
                     </Route>
                     {user ? (
                         <Route element={<Suspense fallback={<Loading />}><RootLayout /></Suspense>}>

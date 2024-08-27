@@ -53,7 +53,7 @@ const AllEvents = () => {
                     {loading ? <Loading /> : (
                         <>
                             {events && events.map((event,index) => (
-                                <Link key={index} to={`https://snap-share-xi.vercel.app/event-qr-code/${event._id}`} className="p-3 w-[290px] h-[370px] hover:scale-105 duration-200 ease-in hover:shadow-2xl mxs:w-[250px] mxs:h-[390px] mxs:shadow-2xl msm:w-[270px] msm:h-[350px] mmd:h-[370px] mmd:w-[300px] mlg:w-[270px] mlg:h-[37  0px]">
+                                <Link key={index} to={`http://localhost:5173/event-qr-code/${event._id}`} className="p-3 w-[290px] h-[370px] hover:scale-105 duration-200 ease-in hover:shadow-2xl mxs:w-[250px] mxs:h-[390px] mxs:shadow-2xl msm:w-[270px] msm:h-[350px] mmd:h-[370px] mmd:w-[300px] mlg:w-[270px] mlg:h-[37  0px]">
                                     <img src={`https://snapshare-avzz.onrender.com/${decodeURIComponent(event.eventPhoto)}`} alt="" className="w-[270px] h-[240px] rounded"/>
                                     <div className="flex justify-between items-center mt-2">
                                         <div className="text-2xl font-bold">{event.eventName}</div>
