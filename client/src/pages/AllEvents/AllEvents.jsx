@@ -4,6 +4,8 @@ import {api} from "../../api/base.js";
 import Loading from "../../components/Loading/Loading.jsx";
 import Hero2 from "../../assets/hero-2.jpg";
 import {Link} from "react-router-dom";
+import {LazyLoadImage} from "react-lazy-load-image-component";
+import 'react-lazy-load-image-component/src/effects/blur.css';
 const AllEvents = () => {
     const [loading, setLoading] = useState()
     const [events, setEvents] = useState([]);
@@ -50,11 +52,23 @@ const AllEvents = () => {
                     </div>
                 </div>
                 <div className="grid grid-cols-3 gap-2 mt-12 mxs:grid-cols-1 msm:grid-cols-1 mmd:grid-cols-2 place-items-center">
-                    {loading ? <Loading /> : (
+                    {loading ?
+                        <div className="h-[60vh] flex items-center justify-center">
+                            <Loading />
+                        </div>
+                        : (
                         <>
                             {events && events.map((event,index) => (
                                 <Link key={index} to={`http://localhost:5173/event-qr-code/${event._id}`} className="p-3 w-[290px] h-[370px] hover:scale-105 duration-200 ease-in hover:shadow-2xl mxs:w-[250px] mxs:h-[390px] mxs:shadow-2xl msm:w-[270px] msm:h-[350px] mmd:h-[370px] mmd:w-[300px] mlg:w-[270px] mlg:h-[37  0px]">
-                                    <img src={`https://snapshare-avzz.onrender.com/${decodeURIComponent(event.eventPhoto)}`} alt="" className="w-[270px] h-[240px] rounded"/>
+                                    <LazyLoadImage
+                                        src={`https://snapshare-avzz.onrender.com/${decodeURIComponent(event.eventPhoto)}`}
+                                        alt="" className="w-[270px] h-[240px] rounded"
+                                        effect="blur"
+                                        wrapperProps={{
+                                        // If you need to, you can tweak the effect transition using the wrapper style.
+                                        style: {transitionDelay: "1s"},
+                                        }}
+                                    />
                                     <div className="flex justify-between items-center mt-2">
                                         <div className="text-2xl font-bold">{event.eventName}</div>
                                         <div className="bg-yellow-200 px-1">{event.eventTime ? event.eventTime : "NA"}</div>

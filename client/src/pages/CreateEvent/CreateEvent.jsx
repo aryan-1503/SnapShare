@@ -3,10 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import Event from "../../assets/event.jpg";
 import { IoCloudUploadOutline } from "react-icons/io5";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import 'react-lazy-load-image-component/src/effects/blur.css';
 import { IoIosAdd } from "react-icons/io";
 import { MdOutlineDelete } from "react-icons/md";
 import axios from "axios";
 import {api} from "../../api/base.js";
+
 
 const CreateEvent = () => {
     const navigate = useNavigate();
@@ -126,6 +128,7 @@ const CreateEvent = () => {
                     <LazyLoadImage
                         src={Event}
                         alt="Event"
+                        effect="blur"
                         className="lg:h-[100%] object-cover"
                     />
                 </Link>

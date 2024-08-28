@@ -4,6 +4,8 @@ import Hero2 from "../../assets/hero-2.jpg";
 import Hero3 from "../../assets/hero-3.jpg";
 import { IoMdAdd } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
+import {LazyLoadImage} from "react-lazy-load-image-component";
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 const EventsExample = () => {
     const navigate = useNavigate();
@@ -31,8 +33,12 @@ const EventsExample = () => {
                 </div>
                 <div className="w-7/12 flex justify-center items-center gap-4 mt-4 mxs:flex-col msm:flex-col mmd:grid mmd:grid-cols-2 mmd:w-auto mlg:grid mlg:grid-cols-3 mlg:w-auto">
                     <div className="p-3 w-[390px] h-[345px] hover:scale-105 duration-200 ease-in hover:shadow-lg mxs:w-[270px] mxs:h-[370px] msm:w-[300px] msm:h-[350px] mmd:h-[370px] mmd:w-[300px] mlg:w-[270px] mlg:h-[370px]">
-                        <img
-                            loading="lazy"
+                        <LazyLoadImage
+                            effect="blur"
+                            wrapperProps={{
+                                // If you need to, you can tweak the effect transition using the wrapper style.
+                                style: {transitionDelay: "100ms"},
+                            }}
                             src={Hero1}
                             alt="Family Gathering"
                             onLoad={() => handleImageLoad('Hero1')}
@@ -47,8 +53,12 @@ const EventsExample = () => {
                         </div>
                     </div>
                     <div className="p-3 w-[390px] h-[345px] hover:scale-105 duration-200 ease-in hover:shadow-lg mxs:w-[270px] mxs:h-[370px] msm:w-[300px] msm:h-[350px] mmd:h-[370px] mmd:w-[300px] mlg:w-[270px] mlg:h-[370px]">
-                        <img
-                            loading="lazy"
+                        <LazyLoadImage
+                            effect="blur"
+                            wrapperProps={{
+                                // If you need to, you can tweak the effect transition using the wrapper style.
+                                style: {transitionDelay: "100ms"},
+                            }}
                             src={Hero2}
                             alt="Uttrayan"
                             onLoad={() => handleImageLoad("Hero2")}
@@ -63,8 +73,12 @@ const EventsExample = () => {
                         </div>
                     </div>
                     <div className="p-3 w-[390px] h-[345px] hover:scale-105 duration-200 ease-in hover:shadow-lg mxs:w-[270px] mxs:h-[370px] msm:w-[300px] msm:h-[350px] mmd:h-[370px] mmd:w-[300px] mlg:w-[270px] mlg:h-[370px]">
-                        <img
-                            loading="lazy"
+                        <LazyLoadImage
+                            effect="blur"
+                            wrapperProps={{
+                                // If you need to, you can tweak the effect transition using the wrapper style.
+                                style: {transitionDelay: "100ms"},
+                            }}
                             src={Hero3}
                             alt="Wedding"
                             onLoad={() => handleImageLoad("Hero3")}
