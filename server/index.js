@@ -6,6 +6,7 @@ import { connectToDB } from "./utils/connectToDb.js";
 import { authRouter } from "./routes/auth.route.js";
 import { eventRoute } from "./routes/event.route.js";
 import { userRoute } from "./routes/user.route.js";
+import {imageRoute} from "./routes/image.route.js";
 
 
 const PORT = process.env.PORT || 8000
@@ -32,6 +33,7 @@ app.use('/events', express.static('events'));
 app.use("/api/auth",authRouter)
 app.use("/api/event/",eventRoute)
 app.use("/api/user",userRoute)
+app.use("/api/images",imageRoute)
 
 app.get("/", (req, res) => {
     res.send("HealthCheck");

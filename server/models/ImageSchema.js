@@ -1,9 +1,12 @@
 import {model, Schema} from "mongoose";
 
 const ImageSchema = new Schema({
-    imageUrl :{
+    image : {
         type: String,
         required: true
+    },
+    imageUrl: {
+        type: String
     },
     uploaderName: {
         type: String,
@@ -11,7 +14,6 @@ const ImageSchema = new Schema({
     },
     category: {
         type: String,
-        required: true
     }
 })
 
