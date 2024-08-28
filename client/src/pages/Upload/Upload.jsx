@@ -4,84 +4,28 @@ import { MdOutlineCameraAlt, MdOutlineFileUpload } from "react-icons/md";
 import { IoImagesOutline } from "react-icons/io5";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ImagesPreview from "../../components/ImagesPreview/ImagesPreview.jsx";
+import {useNavigate, useParams} from "react-router-dom";
 
 const Upload = () => {
-    const [showPreview, setShowPreview] = useState(false);
-    const [showImages, setShowImages] = useState(false);
+    const { id } = useParams();
+    const navigate = useNavigate()
     const [selectedFiles, setSelectedFiles] = useState([]);
     const [images, setImages] = useState([]);
     const [loading,setLoading] =useState(false)
-    const [fetching,setFetching] = useState(false)
+    // const [fetching,setFetching] = useState(false)
+    const [showPreview,setShowPreview] = useState(false);
     const handleFileChange = (event) => {
-        setSelectedFiles([...event.target.files]);
+        setSelectedFiles(prevFiles => [...prevFiles, ...Array.from(event.target.files)]);
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const formData = new FormData();
-        if(selectedFiles.length === 0) {
-            toast.error("No images to upload!",{
-                position: "top-center",
-            })
-            return
-        }
-        selectedFiles.forEach(file => {
-            formData.append('images', file);
-        });
-
-        try {
-            setLoading(true)
-            const response = await fetch('https://weddingsnapshots.onrender.com/api/upload', {
-                method: 'POST',
-                body: formData,
-            });
-            if (response.ok) {
-                const data = await response.json();
-                console.log('Images uploaded successfully:', data);
-                setSelectedFiles([]);
-                toast.success("Image Uploaded!", {
-                    position: "top-center"
-                });
-            } else {
-                console.error('Error uploading images:', response.data.message);
-                alert(response.message);
-            }
-        } catch (error) {
-            console.error('Error uploading images:', error);
-            alert(error);
-        }finally {
-            setLoading(false)
-        }
-    };
-
-    const handleGetAllImages = async (e) => {
-        e.preventDefault();
-        try {
-            setShowImages(true);
-            setFetching(true)
-            const response = await fetch('https://weddingsnapshots.onrender.com/api/upload/images');
-
-            if (response.ok) {
-                const data = await response.json();
-                setImages(data);
-            } else {
-                console.error('Error fetching images:', response.message);
-                alert(response.message);
-            }
-        } catch (error) {
-            console.error('Error fetching images:', error);
-            alert(error);
-        }finally {
-            setFetching(false)
-        }
-    };
 
     const handleToggle = () => {
         setShowPreview(true);
     };
 
     return (
-        <div className="upload-wrapper">
+        <div className="upload-wrapper h-full">
             <ToastContainer />
             <div className="upload-container">
                 <div className="upload-title">
@@ -89,7 +33,7 @@ const Upload = () => {
                     <hr />
                 </div>
                 <div className="upload-inputs">
-                    <form onSubmit={handleSubmit}>
+                    <form>
                         <label htmlFor="capture-image" className="file-label">
                             <div className="take-a-photo">
                                 <div>Take a Photo</div>
@@ -145,9 +89,12 @@ const Upload = () => {
                             <li>See all uploaded images by clicking the button in the lower right corner.</li>
                         </ul>
                     </div>
-                    {/*<div className="preview">*/}
-                    {/*    {showPreview && <ImagesPreview images={selectedFiles} setImages={setSelectedFiles} setShowPreview={setShowPreview} />}*/}
-                    {/*</div>*/}
+                    <div className="flex justify-center items-center p-4 w-full">
+                        <button className="p-2 rounded tracking-wide uppercase font-cinzel flex justify-center items-center bg-yellow-950 font-[500] text-yellow-50 text-lg border-2 border-yellow-950 hover:shadow-2xl hover:bg-yellow-950 duration-200 ease-in hover:text-[#FFFFF0] active:scale-95" onClick={() => navigate(`/event/${id}/all-images`)}>uploaded Images →</button>
+                    </div>
+                    <div className="preview">
+                        {showPreview && <ImagesPreview images={selectedFiles} setImages={setSelectedFiles} setShowPreview={setShowPreview} />}
+                    </div>
                 </div>
             </div>
         </div>

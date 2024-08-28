@@ -36,12 +36,12 @@ function EventPage() {
 
 
     return (
-        <div className="container box-border w-screen flex flex-col justify-center items-center bg-yellow-50 gap-4 p-8">
+        <div className="flex flex-col justify-center items-center bg-yellow-50 gap-4 p-8">
             <div className="title text-4xl text-center text-yellow-950">
                 Welcome to the {event.eventName}
             </div>
-            <img src={`https://snapshare-avzz.onrender.com/${decodeURIComponent(event.eventPhoto)}`} alt="No preview available" className="w-[330px] h-[270px] object-cover rounded-md shadow-2xl"/>
-            <div className="uppercase font-cinzel font-[500] text-md text-justify">
+            <img src={`https://snapshare-avzz.onrender.com/${decodeURIComponent(event.eventPhoto)}`} alt="No preview available" className="w-[240px] h-[270px] object-cover rounded-md shadow-2xl"/>
+            <div className="uppercase font-cinzel font-[500] text-md text-justify xl:w-1/5">
                 Share your memories effortlessly. Upload and view wedding
                 photos from all guests in one place. Make every moment
                 unforgettable.

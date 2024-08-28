@@ -132,9 +132,10 @@ hr{
 
 .preview{
     position: absolute;
-    top: 3%;
-    width: 80%;
-    height: auto;
+    top: 0;
+    left: 0;
+    /*width: 80%;*/
+
 }
 .get-all-btn{
     display: flex;
