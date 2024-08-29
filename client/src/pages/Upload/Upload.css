@@ -91,7 +91,7 @@
 
 }
 
-input[type="text"]{
+.upload-form > input[type="text"]{
     border: none;
     border-bottom: 2px solid #483118;
     background-color: #FFFFF0;
@@ -104,7 +104,7 @@ input[type="text"]{
 }
 
 
-input[type="text"]::placeholder{
+.upload-form > input[type="text"]::placeholder{
     font-family: "Cinzel",serif;
     color: black;
     /*font-weight: 600;*/
@@ -112,7 +112,7 @@ input[type="text"]::placeholder{
     padding-left: 0;
 }
 
-input[type="text"]:focus{
+.upload-form > input[type="text"]:focus{
     outline-color: #483118;
     border: #483118 1px solid;
 }

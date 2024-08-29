@@ -3,6 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import Loading from "../../components/Loading/Loading.jsx";
 import AuthContext from "../../context/AuthContext.jsx";
 import { api } from "../../api/base.js";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import axios from "axios";
 const Register = () => {
     const [formData,setFormData] = useState({
         username: "",
@@ -20,14 +23,23 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(formData)
+        if(formData.confirmPassword !== formData.password){
+            toast.error("Passwords doesn't match",{
+                position: "top-center"
+            })
+            return;
+        }
         const { confirmPassword, ...data } = formData;
         console.log(data);
         try{
             setLoading(true);
-            const res = await api.post("auth/register",data);
+            const res = await axios.post("http://localhost:5555/api/auth/register",data);
             console.log("RESPONSE : ",res.data);
             setTempUser(res.data.savedUser)
-            alert(res.data.message)
+            // alert(res.data.message)
+            toast.success(res.data.message, {
+                position: "top-center",
+            });
             navigate("/verify")
         }
         catch (error) {
@@ -75,7 +87,7 @@ const Register = () => {
                             className="h-[2.5rem] w-[130%] rounded pl-[0.6rem] border-2 border-amber-950 font-[500] text-[17px] mxs:w-[105%]"
                         />
                         <input
-                            type="text"
+                            type="password"
                             id="confirm-password"
                             name="confirmPassword"
                             placeholder="Confirm Password"
@@ -87,6 +99,7 @@ const Register = () => {
                         <button type="submit" className="w-[130%] h-[2.5rem] rounded bg-amber-100 text-[#2f1a1a] font-bold text-[20px] active:scale-[0.98] mxs:w-[105%]">
                             {loading ? <div style={{display:"grid",placeItems:"center"}}><Loading /></div> : "Register"}
                         </button>
+                        <ToastContainer />
                     </form>
                     <div className="mt-3 text-[#dedcdc] flex justify-center p-[1rem 0 0.5rem 0] text-[20px]">
                         Already registered ?

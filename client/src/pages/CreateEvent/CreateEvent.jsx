@@ -6,8 +6,9 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import { IoIosAdd } from "react-icons/io";
 import { MdOutlineDelete } from "react-icons/md";
-import axios from "axios";
 import {api} from "../../api/base.js";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const CreateEvent = () => {
@@ -75,9 +76,13 @@ const CreateEvent = () => {
                 }
             });
 
-            console.log(res.data);
-            alert(res.data.message);
-            // navigate("/")
+            // console.log(res.data);
+            // alert(res.data.message);
+            toast.success(res.data.message, {
+                position: "top-center",
+            });
+
+            navigate("/event/all")
         } catch (error) {
             console.log("Server Error : ", error);
         }
@@ -229,6 +234,7 @@ const CreateEvent = () => {
                     <button type="submit" className="mt-4 p-2 bg-yellow-950 text-yellow-50 rounded hover:bg-yellow-900 duration-200 ease-in active:scale-95">
                         Generate QR Code
                     </button>
+                    <ToastContainer />
                 </form>
             </div>
         </div>

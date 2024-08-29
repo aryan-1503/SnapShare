@@ -66,7 +66,7 @@ const Upload = () => {
                     <hr />
                 </div>
                 <div className="upload-inputs">
-                    <form onSubmit={handleSubmit}>
+                    <form className="upload-form" onSubmit={handleSubmit}>
                         <label htmlFor="capture-image" className="file-label">
                             <div className="take-a-photo">
                                 <div>Take a Photo</div>

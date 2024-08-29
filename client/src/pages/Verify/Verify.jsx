@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import Loading from "../../components/Loading/Loading.jsx";
 import AuthContext from "../../context/AuthContext.jsx";
 import { api } from "../../api/base.js";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Verify = () => {
     const [verificationCode, setVerificationCode] = useState("");
@@ -21,7 +23,10 @@ const Verify = () => {
             setLoading(true);
             const res = await api.post("auth/verify", { email: tempUser.email,verificationCode: verificationCode });
             console.log("RESPONSE:", res.data);
-            alert(res.data.message);
+            // alert(res.data.message);
+            toast.success(res.data.message, {
+                position: "top-center",
+            });
             setUser(res.data.user)
             navigate("/");
         } catch (error) {
@@ -55,6 +60,7 @@ const Verify = () => {
                         <button type="submit" className="w-[120%] h-[2.5rem] rounded bg-amber-100 text-[#2f1a1a] font-bold text-[20px] active:scale-[0.98] mxs:w-[105%]">
                             {loading ? <div style={{ display: "grid", placeItems: "center" }}><Loading /></div> : "Verify"}
                         </button>
+                        <ToastContainer />
                     </form>
                     <div className="mt-3 text-[#dedcdc] flex justify-center p-[1rem 0 0.5rem 0] text-[20px]">
                         Didn't receive a code?

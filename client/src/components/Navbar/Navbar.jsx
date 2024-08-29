@@ -7,6 +7,8 @@ import {FaRegUser} from "react-icons/fa";
 import AuthContext from "../../context/AuthContext.jsx";
 import axios from "axios";
 import {api} from "../../api/base.js";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -32,7 +34,10 @@ const Navbar = () => {
         try{
             const res = await api.post("/auth/logout",{},{withCredentials :true})
             if (res.status === 200) {
-                alert(res.data.message)
+                // alert(res.data.message)
+                toast.success(res.data.message, {
+                    position: "top-center",
+                });
                 setUser(null);
             }
         }catch (e) {
@@ -42,6 +47,7 @@ const Navbar = () => {
 
     return (
         <>
+            <ToastContainer />
             <header className="flex justify-around items-center gap-[15rem] p-2 bg-[#382014] shadow-3xl text-amber-100 mxs:gap-7 ">
                 <Link to="/" className="flex justify-center items-center gap-3 tracking-wide text-[30px]">
                     <SiImagedotsc className="text-3xl" />

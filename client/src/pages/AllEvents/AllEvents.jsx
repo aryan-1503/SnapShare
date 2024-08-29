@@ -3,12 +3,14 @@ import AllEvent  from "../../assets/all-events.jpg"
 import {api} from "../../api/base.js";
 import Loading from "../../components/Loading/Loading.jsx";
 import Hero2 from "../../assets/hero-2.jpg";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {LazyLoadImage} from "react-lazy-load-image-component";
 import 'react-lazy-load-image-component/src/effects/blur.css';
+import {IoMdAdd} from "react-icons/io";
 const AllEvents = () => {
     const [loading, setLoading] = useState()
     const [events, setEvents] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchEvents = async () => {
@@ -58,7 +60,8 @@ const AllEvents = () => {
                         </div>
                         : (
                         <>
-                            {events && events.map((event,index) => (
+                            {events &&
+                                events.map((event,index) => (
                                 <Link key={index} to={`https://snap-share-xi.vercel.app/event-qr-code/${event._id}`} className="p-3 w-[290px] h-[370px] hover:scale-105 duration-200 ease-in hover:shadow-2xl mxs:w-[250px] mxs:h-[390px] mxs:shadow-2xl msm:w-[270px] msm:h-[350px] mmd:h-[370px] mmd:w-[300px] mlg:w-[270px] mlg:h-[37  0px]">
                                     <LazyLoadImage
                                         src={`https://snapshare-avzz.onrender.com/${decodeURIComponent(event.eventPhoto)}`}
@@ -81,6 +84,16 @@ const AllEvents = () => {
                         </>
                     )}
                 </div>
+                {events.length === 0 &&
+                <div className="flex flex-col justify-center items-center h-[50vh]">
+                    <div className="text-2xl font-[500]">No Events created</div>
+                    <button
+                        className="mt-4 p-[0.5rem_0.8rem_0.5rem_0.5rem] flex items-center gap-1 text-lg font-bold text-yellow-950 border-2 border-yellow-950 active:scale-95 hover:bg-yellow-950 duration-200 ease-in hover:text-amber-100"
+                        onClick={() => navigate("/new-event")}
+                    >
+                        <IoMdAdd />Create Your Event
+                    </button>
+                </div>}
             </div>
         </div>
     );

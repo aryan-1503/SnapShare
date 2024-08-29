@@ -49,7 +49,7 @@ function App() {
                         <Route path="/about-us" element={<div className="h-screen text-5xl bg-yellow-50">About</div>} />
                         <Route path="/contact-us" element={<div className="h-screen text-5xl bg-yellow-50">Contact</div>} />
                     </Route>
-                    <Route element={<Suspense fallback={<Loading />}><EventPageLayout /></Suspense>}>
+                    <Route element={<Suspense fallback={<div className="h-screen w-screen flex items-center justify-center"><Loading /></div>}><EventPageLayout /></Suspense>}>
                         <Route path={`/event/:id`} element={<EventPage />} />
                         <Route path={`/event/:id/upload`} element={<Upload />} />
                         <Route path={`/event/:id/all-images`} element={<EventAllImages />} />
