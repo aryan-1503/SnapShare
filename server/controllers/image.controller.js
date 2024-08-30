@@ -54,7 +54,8 @@ const getEventImages = async (req,res) => {
             const img = await ImageModel.findById(image._id);
             const command = new GetObjectCommand({
                 Bucket: process.env.BUCKET_NAME,
-                Key: image.image
+                Key: image.image,
+                ResponseContentDisposition: `attachment; filename="${image.image}.jpg"`
             });
             const url = await getSignedUrl(s3, command, { expiresIn: 3600 });
             img.imageUrl = url;

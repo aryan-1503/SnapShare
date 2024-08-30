@@ -13,6 +13,9 @@ const EventSchema = new Schema({
     categories : [{
         type: String,
     }],
+    subEvent : {
+        type: String
+    },
     description: {
         type: String
     },

@@ -65,7 +65,7 @@ const Navbar = () => {
 
                         ) : (
                             <>
-                                <Link to="/about-us" className="hover:underline active:scale-95">About</Link>
+                                <Link to="/" className="hover:underline active:scale-95">Home</Link>
                                 <Link to="/contact-us" className="flex justify-center items-center gap-2 hover:underline active:scale-95">Contact Us</Link>
                                 <Link to="/register" className="bg-amber-100 rounded-md font-[600] text-[#2f1a1a] py-[0.2rem] px-[0.4rem] hover:bg-[#FFFFF0] hover:transition ease-in delay-150 hover:shadow-2xl active:scale-95">SignUp</Link>
                                 <Link to="/login" className="hover:underline active:scale-95">Login</Link>
@@ -86,14 +86,14 @@ const Navbar = () => {
                         {
                             user ? (
                                 <>
-                                    <Link to="/about-us" className="w-full border-b-2 border-b-amber-950 font-[500]">About</Link>
+                                    <Link to="/about-us" className="w-full border-b-2 border-b-amber-950 font-[500]">Home</Link>
                                     <Link to="/register" className="w-full border-b-2 border-b-amber-950 font-[500]">My Events</Link>
                                     <Link to="/profile" className="w-full border-b-2 border-b-amber-950 font-[500]">Profile</Link>
                                     <Link to="/" className="w-full font-[500] font-[Dubai,serif]" onClick={handleLogout}>Logout</Link>
                                 </>
                             ) : (
                                 <>
-                                    <Link to="/about-us" className="w-full border-b-2 border-b-amber-950 font-[500]">About</Link>
+                                    <Link to="/about-us" className="w-full border-b-2 border-b-amber-950 font-[500]">Home</Link>
                                     <Link to="/profile" className="w-full border-b-2 border-b-amber-950 font-[500]">Contact</Link>
                                     <Link to="/register" className="w-full border-b-2 border-b-amber-950 font-[500]">SignUp</Link>
                                     <Link to="/login" className="w-full font-[500] font-[Dubai,serif]">Login</Link>

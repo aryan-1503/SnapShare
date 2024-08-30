@@ -33,7 +33,7 @@ const Login = () => {
             setTimeout(() => {
                 navigate("/");
                 window.location.reload();
-            },2000)
+            },1000)
 
         } catch (error) {
             if (error.response && error.response.data && error.response.data.message) {

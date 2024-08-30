@@ -2,14 +2,13 @@ import React, {useContext, useEffect, useState} from 'react';
 import {Link, useParams} from "react-router-dom";
 import {api} from "../../api/base.js";
 import AuthContext from "../../context/AuthContext.jsx";
-import {IoCloudUploadOutline} from "react-icons/io5";
 import {IoIosAdd} from "react-icons/io";
 import {MdOutlineDelete} from "react-icons/md";
-import axios from "axios";
 import Loading from "../../components/Loading/Loading.jsx";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const EditSingleEvent = () => {
-
     const { id } = useParams();
     const { user } = useContext(AuthContext);
     const [eventDetails, setEventDetails] = useState(null);
@@ -17,7 +16,15 @@ const EditSingleEvent = () => {
     const [selectedPhoto,setSelectedPhoto] = useState(null);
     const [categories,setCategories] = useState([]);
     const [categoryInput, setCategoryInput] = useState('');
+    const [selectedCategory, setSelectedCategory] = useState('');
     const [loading, setLoading] = useState(false)
+
+    const [formData, setFormData] = useState({
+        eventName: "",
+        eventPhoto: selectedPhoto,
+        eventTime: "",
+        categories: []
+    });
     const handleClick = (e) => {
         e.preventDefault()
         fileInputRef.current.click();
@@ -27,12 +34,13 @@ const EditSingleEvent = () => {
             try{
                 setLoading(true)
                 const res = await api.get(`/event/${id}`)
-                setEventDetails(res.data.event)
-                setCategories(res.data.event.categories)
+                const event = res.data.event;
+                setEventDetails(event)
+                setCategories(event.categories)
                 setFormData({
-                    eventName: eventDetails.eventName,
+                    eventName: event.eventName,
                     eventPhoto: selectedPhoto,
-                    eventTime: eventDetails.eventTime,
+                    eventTime: event.eventTime,
                     categories: categories
                 })
             }catch (e) {
@@ -45,12 +53,7 @@ const EditSingleEvent = () => {
         fetchSingleEvent();
     }, []);
 
-    const [formData, setFormData] = useState({
-        eventName: "",
-        eventPhoto: selectedPhoto,
-        eventTime: "",
-        categories: []
-    });
+
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -105,8 +108,10 @@ const EditSingleEvent = () => {
         });
     };
 
-
-
+    const handleCategoryChange = (event) => {
+        const category = event.target.value;
+        setSelectedCategory(category);
+    };
 
 
     const handleSaveChanges = async (e) => {
@@ -115,48 +120,43 @@ const EditSingleEvent = () => {
         data.append("eventName",formData.eventName);
         data.append("eventPhoto",formData.eventPhoto);
         data.append("eventTime",formData.eventTime);
+        data.append("subEvent",selectedCategory);
         categories.forEach((category) => {
             data.append('categories[]', category);
         });
 
-        for (const pair of data.entries()) {
-            console.log(pair[0], pair[1]);
-        }
-
         try {
-            const res = await api.patch(`/event/edit-event/${id}`, data,{
+            const res = await api.patch(`event/edit-event/${id}`, data,{
                 headers: {
                     "Content-Type":'multipart/form-data'
                 },
             })
-            alert(res.data.message)
-            console.log(res.data)
+            // alert(res.data.message)
+            toast.success(res.data.message,{
+                position: "top-center"
+            })
+            // console.log(res.data)
         }catch (e) {
             console.log(e)
         }
 
     }
 
-    useEffect(() => {
-        console.log("EventDetails : ",eventDetails)
-        console.log(formData)
-    }, [eventDetails]);
-
 
     if (loading){
         return (
-            <div className="w-screen h-screen flex items-center justify-center">
+            <div className="w-screen h-screen flex items-center justify-center bg-yellow-50">
                 <Loading />
             </div>
         )
     }
     return (
         <>
-            <div className="w-screen h-screen bg-yellow-50 flex justify-evenly items-center msm:hidden mmd:hidden">
-                <Link to={`http://localhost:5173/event/${id}`} className="p-1 mxs:hidden">
+            <div className="w-screen h-screen bg-yellow-50 flex justify-evenly items-center ">
+                <Link to={`https://snap-share-xi.vercel.app/event/${id}`} className="p-1 mxs:hidden msm:hidden mmd:hidden">
                     <iframe src={`https://snap-share-xi.vercel.app/event/${id}`} frameBorder="0" title="Preview" className="h-[90vh] w-[350px] border-2 border-yellow-950" ></iframe>
                 </Link>
-                <div className="w-1/3 flex flex-col gap-4 justify-center items-center hover:rounded hover:shadow-2xl p-4 mxs:w-full">
+                <div className="w-1/3 flex flex-col gap-4 justify-center items-center hover:rounded hover:shadow-2xl p-4 mxs:w-full msm:w-3/4 mmd:w-2/3">
                     <div className="text-3xl text-yellow-950">Edit Details</div>
                     <form onSubmit={handleSaveChanges} className="flex flex-col gap-4 w-full">
                         <input
@@ -167,7 +167,7 @@ const EditSingleEvent = () => {
                             placeholder="Event Name"
                             className="w-full text-lg pl-2 bg-yellow-50 border-2 border-amber-950 p-1 placeholder:text-yellow-800"
                         />
-                        <div className="border-2 border-yellow-950 p-1 text-yellow-950">
+                        <div className="border-2 border-yellow-950 p-1 text-yellow-950 overflow-hidden">
                             <input
                                 type="file"
                                 name="file"
@@ -194,8 +194,6 @@ const EditSingleEvent = () => {
                                 id="eventDate"
                                 className="bg-yellow-50 pl-3"
                                 onChange={handleChange}
-                                placeholder={eventDetails.eventTime}
-                                required
                             />
                         </label>
                         <div className="flex gap-2 w-full">
@@ -214,7 +212,7 @@ const EditSingleEvent = () => {
                             </button>
                         </div>
                         <div className="text-yellow-950 text-2xl font-bold w-[90%]">
-                            Event Categories
+                            Sub Events
                             <ol className="overflow-y-scroll max-h-20 scrollbar scrollbar-track-yellow-50">
                                 {categories.length > 0 ? categories.map((category, index) => (
                                     <li key={index} className="flex items-center justify-between gap-8 text-lg font-light pl-2">
@@ -227,7 +225,22 @@ const EditSingleEvent = () => {
                                 )}
                             </ol>
                         </div>
+                        <div className="my-4 w-full">
+                            <label htmlFor="category-select" className="font-semibold text-xl text-yellow-950">Current Sub Event : </label>
+                            <select
+                                id="category-select"
+                                value={selectedCategory}
+                                onChange={handleCategoryChange}
+                                className="p-1 border-2 border-yellow-950 rounded bg-yellow-50 text-yellow-950"
+                            >
+                                <option value="" className="bg-yellow-50 text-yellow-950">Select SubEvent</option>
+                                {categories.length > 0 && categories.map((cat, index) => (
+                                    <option key={index} value={cat} className="bg-yellow-50 text-yellow-950">{cat}</option>
+                                ))}
+                            </select>
+                        </div>
                         <button type="submit" className="p-2 flex justify-center items-center bg-yellow-950 rounded-md font-[500] text-[18px] text-[#FFFFF0] hover:transition ease-in delay-150 hover:shadow-2xl active:scale-95">Save Changes</button>
+                        <ToastContainer />
                     </form>
                 </div>
 

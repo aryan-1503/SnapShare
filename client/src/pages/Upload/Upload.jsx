@@ -10,17 +10,31 @@ import {api} from "../../api/base.js";
 
 const Upload = () => {
     const { id } = useParams();
+    const [eventDetails, setEventDetails] = useState(null);
     const navigate = useNavigate()
     const [selectedFiles, setSelectedFiles] = useState([]);
     const [images, setImages] = useState([]);
     const [loading,setLoading] =useState(false)
-    // const [fetching,setFetching] = useState(false)
     const [showPreview,setShowPreview] = useState(false);
     const [ uploaderName, setUploaderName ] = useState("");
     const handleFileChange = (event) => {
         setSelectedFiles(prevFiles => [...prevFiles, ...Array.from(event.target.files)]);
     };
+    useEffect(() => {
+        const fetchSingleEvent = async () => {
+            try{
+                setLoading(true)
+                const res = await api.get(`/event/${id}`)
+                setEventDetails(res.data.event)
+            }catch (e) {
+                console.log(e)
+            }finally {
+                setLoading(false)
+            }
 
+        }
+        fetchSingleEvent();
+    }, []);
 
     const handleToggle = () => {
         setShowPreview(true);
@@ -43,6 +57,7 @@ const Upload = () => {
             data.append('image',file)
         })
         data.append('uploaderName', uploaderName);
+        data.append("category",eventDetails.subEvent);
         try{
             setLoading(true)
             const res = await api.post(`/images/upload/${id}`,data, {
@@ -50,9 +65,14 @@ const Upload = () => {
                     "Content-Type": "multipart/form-data"
                 }
             });
-            console.log(res.data)
+            toast.success(res.data.message,{
+                position:"top-center"
+            })
         }catch (e) {
             console.log(e)
+            toast.error("Failed to upload images",{
+                position: "top-center"
+            })
         }finally {
             setLoading(false)
         }

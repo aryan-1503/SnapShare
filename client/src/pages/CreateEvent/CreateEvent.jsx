@@ -2,7 +2,6 @@ import React, { useState, useRef } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import Event from "../../assets/event.jpg";
 import { IoCloudUploadOutline } from "react-icons/io5";
-import { LazyLoadImage } from "react-lazy-load-image-component";
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import { IoIosAdd } from "react-icons/io";
 import { MdOutlineDelete } from "react-icons/md";
@@ -128,12 +127,12 @@ const CreateEvent = () => {
 
     return (
         <div className="flex flex-col lg:flex-row justify-around bg-yellow-50">
-            <div className="w-ful lg:w-2/5 hidden lg:block">
+            <div className="w-full lg:w-2/5 hidden lg:block">
                 <Link to="https://www.pexels.com/photo/gentle-lush-floribunda-flowers-on-floor-2879823/">
-                    <LazyLoadImage
+                    <img
                         src={Event}
                         alt="Event"
-                        effect="blur"
+                        loading="lazy"
                         className="lg:h-[100%] object-cover"
                     />
                 </Link>

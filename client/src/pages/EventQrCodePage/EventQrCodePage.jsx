@@ -2,7 +2,6 @@ import React, {useContext, useEffect, useState} from 'react';
 import {Link, useNavigate, useParams} from "react-router-dom";
 import AuthContext from "../../context/AuthContext.jsx";
 import {api} from "../../api/base.js";
-import axios from "axios";
 import Loading from "../../components/Loading/Loading.jsx";
 import { FiExternalLink } from "react-icons/fi";
 import { GoDownload } from "react-icons/go";
@@ -79,7 +78,7 @@ const EventQrCodePage = () => {
             canvas.toBlob((blob) => {
                 const link = document.createElement('a');
                 link.href = URL.createObjectURL(blob);
-                link.download = `QRCode_${id}.jpeg`;
+                link.download = `QRCode_${eventDetails.eventName}.jpeg`;
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
@@ -100,7 +99,7 @@ const EventQrCodePage = () => {
                 </div> : (
                     <div className="w-screen bg-yellow-50 flex lg:justify-evenly items-center mxs:flex-col">
                         <div className="flex justify-center items-center ">
-                            <Link to={`http://localhost:5173/event/${id}`} className="p-2 mxs:hidden">
+                            <Link to={`https://snap-share-xi.vercel.app/event/${id}`} className="p-2 mxs:hidden">
                                 <iframe src={`https://snap-share-xi.vercel.app/event/${id}`} frameBorder="0" title="Preview" className="h-[90vh] w-[350px] border-2 border-yellow-950"></iframe>
                             </Link>
                             <div className="font-dancing-script uppercase text-center text-3xl font-bold mxs:p-4 lg:hidden">
@@ -122,7 +121,7 @@ const EventQrCodePage = () => {
                                 <button className="w-[8rem] p-2 flex gap-2 justify-center items-center bg-yellow-950 rounded-md font-[500] text-[18px] text-[#FFFFF0] hover:bg-yellow-800 hover:transition ease-in delay-150 hover:shadow-2xl active:scale-95" onClick={handleDownloadQrCode}>QR Code <GoDownload className="mb-1" /></button>
                                 <button className="w-[8rem] p-2 flex justify-center items-center bg-yellow-950 rounded-md font-[500] text-[18px] text-[#FFFFF0] hover:bg-yellow-800 hover:transition ease-in delay-150 hover:shadow-2xl active:scale-95" onClick={() => navigate(`/edit-event/${id}`)}>Edit Event</button>
                             </div>
-
+                            <button className="w-[9rem] p-2 flex justify-center items-center bg-yellow-950 rounded-md font-[500] text-[18px] text-[#FFFFF0] hover:bg-yellow-800 hover:transition ease-in delay-150 hover:shadow-2xl active:scale-95" onClick={() => navigate(`/event/${id}/manage-images`)}>Manage Images</button>
                         </div>
                     </div>
                 )}

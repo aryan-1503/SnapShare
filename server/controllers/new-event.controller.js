@@ -56,7 +56,7 @@ const getSingleEvent = async (req,res) => {
 
 const updateSingleEvent = async (req, res) => {
     const { id } = req.params;
-    const { eventName, categories, description, eventTime } = req.body;
+    const { eventName, categories, description, eventTime, subEvent } = req.body;
 
     const eventPhoto = req.file;
 
@@ -65,7 +65,8 @@ const updateSingleEvent = async (req, res) => {
             eventName,
             categories,
             description,
-            eventTime
+            eventTime,
+            subEvent
         };
 
         if (eventPhoto) {
