@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
         cb(null, 'events');
     },
     filename: (req, file, cb) => {
-        const uniqueName = `${Date.now()}`
+        const uniqueName = `${Date.now()}.${file.mimetype}`
         cb(null, encodeURIComponent(uniqueName));
     }
 });

@@ -33,7 +33,7 @@ const Register = () => {
         console.log(data);
         try{
             setLoading(true);
-            const res = await axios.post("http://localhost:5555/api/auth/register",data);
+            const res = await api.post("/auth/register",data);
             console.log("RESPONSE : ",res.data);
             setTempUser(res.data.savedUser)
             // alert(res.data.message)
