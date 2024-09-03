@@ -105,7 +105,7 @@ const AllEvents = () => {
                                             className="p-3 w-[290px] h-[370px] hover:scale-105 duration-200 ease-in hover:shadow-2xl mxs:w-[250px] mxs:h-[390px] mxs:shadow-2xl msm:w-[270px] msm:h-[350px] mmd:h-[370px] mmd:w-[300px] mlg:w-[270px] mlg:h-[370px]"
                                         >
                                             <LazyLoadImage
-                                                src={`https://snapshare-avzz.onrender.com/${decodeURIComponent(event.eventPhoto)}`}
+                                                src={`https://snapshare-avzz.onrender.com/${event.eventPhoto}`}
                                                 alt=""
                                                 className="w-[270px] h-[240px] rounded"
                                                 effect="blur"

@@ -5,6 +5,7 @@ import Loading from "../../components/Loading/Loading.jsx";
 import { api } from "../../api/base.js";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
 
 const Login = () => {
     const [formData, setFormData] = useState({
@@ -24,16 +25,19 @@ const Login = () => {
         const { confirmPassword, ...data } = formData;
         try {
             setLoading(true);
-            const res = await api.post("auth/login", data);
-            console.log("RESPONSE: ", res.data);
+            const res = await api.post("/auth/login", data, {
+                withCredentials: true
+            });
+            // console.log("RESPONSE: ", res.data);
             // alert(res.data.message);
             toast.success(res.data.message, {
                 position: "top-center",
             });
             setTimeout(() => {
                 navigate("/");
+
                 window.location.reload();
-            },1000)
+            },700)
 
         } catch (error) {
             if (error.response && error.response.data && error.response.data.message) {

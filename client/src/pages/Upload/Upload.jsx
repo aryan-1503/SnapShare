@@ -127,6 +127,7 @@ const Upload = () => {
                             name="uploaderName"
                             onChange={handleChange}
                             className="font-cinzel text-lg placeholder-black placeholder:uppercase mt-1"
+                            required
                         />
                         <button type="button" onClick={handleToggle} className="preview-btn">
                             <div style={{ paddingTop: "0.2rem", paddingLeft: "0.6rem", paddingRight: "0.4rem" }}>

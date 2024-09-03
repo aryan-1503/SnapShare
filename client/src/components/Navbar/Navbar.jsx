@@ -1,11 +1,9 @@
 import React, {useState, useEffect, useContext} from 'react';
 import { SiImagedotsc } from "react-icons/si";
 import {Link, useNavigate} from "react-router-dom";
-// import "./Navbar.css";
 import { GiHamburgerMenu } from "react-icons/gi";
 import {FaRegUser} from "react-icons/fa";
 import AuthContext from "../../context/AuthContext.jsx";
-import axios from "axios";
 import {api} from "../../api/base.js";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -34,7 +32,6 @@ const Navbar = () => {
         try{
             const res = await api.post("/auth/logout",{},{withCredentials :true})
             if (res.status === 200) {
-                // alert(res.data.message)
                 toast.success(res.data.message, {
                     position: "top-center",
                 });

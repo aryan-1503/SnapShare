@@ -71,12 +71,10 @@ const CreateEvent = () => {
         try {
             const res = await api.post("/event/create", data, {
                 headers: {
-                    'Content-Type': 'multipart/form-data'
+                    'Content-Type': 'multipart/form-data',
                 }
             });
 
-            // console.log(res.data);
-            // alert(res.data.message);
             toast.success(res.data.message, {
                 position: "top-center",
             });
@@ -84,6 +82,10 @@ const CreateEvent = () => {
             navigate("/event/all")
         } catch (error) {
             console.log("Server Error : ", error);
+
+            toast.error(error.response.data.message,{
+                position: "top-center"
+            })
         }
     };
 

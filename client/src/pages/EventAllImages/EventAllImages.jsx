@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { api } from '../../api/base.js';
 import Loading from "../../components/Loading/Loading.jsx";
-import {LazyLoadImage} from "react-lazy-load-image-component";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import 'react-lazy-load-image-component/src/effects/blur.css';
 
 const EventAllImages = () => {
@@ -13,6 +13,7 @@ const EventAllImages = () => {
     const [loading, setLoading] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState('');
     const [selectedImage, setSelectedImage] = useState(null);
+    const [searchInput, setSearchInput] = useState("");
 
     useEffect(() => {
         const fetchEvent = async () => {
@@ -66,12 +67,24 @@ const EventAllImages = () => {
     const handleCloseModal = () => {
         setSelectedImage(null);
     };
+    const handleSearch = (e) => {
+        e.preventDefault();
+        if (searchInput.trim() === "") {
+            setFilteredImages(images);
+        } else {
+            // Filter images based on the search input
+            const filterImages = filteredImages.filter(image => {
+                const eventName = image.uploaderName ? image.uploaderName.toLowerCase() : '';
+                return eventName.includes(searchInput.toLowerCase())
+            });
+            setFilteredImages(filterImages);
+        }
 
-    useEffect(() => {
-        console.log(selectedCategory);
-        console.log(filteredImages)
-    }, [selectedCategory]);
+    }
 
+    const searchChange = (e) => {
+        setSearchInput(e.target.value);
+    };
     return (
         <div className="flex flex-col justify-center items-center bg-yellow-50 p-4">
             <div className="pb-4 w-full text-4xl text-center font-dancing-script border-b-2 border-yellow-950">
@@ -90,7 +103,33 @@ const EventAllImages = () => {
                         <option key={index} value={cat} className="bg-yellow-50 text-yellow-950">{cat}</option>
                     ))}
                 </select>
+                <div className="">
+                    <form onSubmit={handleSearch} className="w-1/5 mx-auto mt-4">
+                        <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+                        <div className="relative">
+                            <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                                <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                                </svg>
+                            </div>
+                            <input
+                                type="search"
+                                onChange={searchChange}
+                                id="default-search"
+                                className="block w-full p-4 ps-10 text-sm bg-yellow-50 text-gray-900 border border-yellow-950 rounded-md focus:ring-yellow-950 focus:border-yellow-950 placeholder:text-yellow-800 mxs:w-[100%]"
+                                placeholder="Search by Uploader"
+                            />
+                            <button
+                                type="submit"
+                                className="text-white absolute end-2.5 bottom-2.5 bg-yellow-950 hover:bg-yellow-900 duration-200 font-medium rounded-md text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            >
+                                Search
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
+
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                 {loading ? (
                     <div className="h-[80vh] flex items-center justify-center">

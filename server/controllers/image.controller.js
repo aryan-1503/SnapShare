@@ -1,4 +1,4 @@
-import {S3Client, PutObjectCommand, GetObjectCommand} from "@aws-sdk/client-s3";
+import {S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand} from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import {ImageModel} from "../models/ImageSchema.js";
 import crypto from "crypto"
@@ -69,8 +69,29 @@ const getEventImages = async (req,res) => {
         console.log(e);
         return res.status(500).json({ message : "Internal Server Error"})
     }
-
-
 }
 
-export { uploadImages, getEventImages }
+const deleteImage = async (req,res) => {
+    const { id } = req.params;
+    const { eventId } = req.params;
+    try {
+        const image = await ImageModel.findById(id);
+        const event = await eventModel.findById(eventId);
+        const params = {
+            Bucket: process.env.BUCKET_NAME,
+            Key: image.image
+        }
+        const command = new DeleteObjectCommand(params);
+        await s3.send(command);
+        event.images = event.images.filter(prevImageId => prevImageId.toString() !== id);
+        event.save();
+        await ImageModel.findOneAndDelete(id);
+        return res.status(201).json({ message: "Image Deleted" });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "Internal Server Error" })
+        
+    }
+}
+
+export { uploadImages, getEventImages,deleteImage }

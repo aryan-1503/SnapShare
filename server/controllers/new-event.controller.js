@@ -16,9 +16,9 @@ const createNewEvent = async (req, res) => {
     const user = await UserModel.findById(id);
     try {
         if (!eventPhoto) {
-            return res.json({ message: "Image not found!" });
+            return res.status(404).json({ message: "Image not found!" });
         }
-        const eventPhotoPath = encodeURIComponent(eventPhoto.path);
+        const eventPhotoPath = eventPhoto.path;
 
         const newEvent = new eventModel({
             eventName,
@@ -95,4 +95,31 @@ const generateQrCode = async (req,res) => {
         res.status(500).json({ message: "Internal Server Error"})
     }
 }
-export { createNewEvent, getSingleEvent, updateSingleEvent, generateQrCode }
+
+const deleteEvent = async (req,res) => {
+    const { token } = req.cookies;
+    if (!token) {
+        return res.status(401).json({ message: "Token not present"})
+    }
+    const data = await jwt.verify(token, process.env.SECRET);
+    if (!data) return res.status(401).json({ message: "Unauthorized" });
+    const id = data.id;
+
+    const { eventId } = req.params;
+    try{
+        const user = await UserModel.findById(id);
+        if (!user) {
+            return res.status(404).json({ message: "User not found"});
+        }
+        user.events = user.events.filter(prevEventId => prevEventId.toString() !== eventId)
+        user.save()
+        await eventModel.findByIdAndDelete(eventId);
+        return res.status(201).json({ message: "Event deleted"})
+
+    }catch (e) {
+        console.log(e)
+        res.status(500).json({ message: "Internal Server Error"})
+    }
+}
+
+export { createNewEvent, getSingleEvent, updateSingleEvent, generateQrCode, deleteEvent }

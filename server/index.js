@@ -24,8 +24,9 @@ app.use(urlencoded({ extended:true }))
 app.use(cookieParser(process.env.SECRET,{
     httpOnly: true,
     secure: true,
-    sameSite: "None"
+    sameSite: "none"
 }));
+
 app.use('/events', express.static('events'));
 
 //Routers
@@ -41,7 +42,7 @@ app.get("/", (req, res) => {
 
 
 app.listen(PORT, () => {
-    console.log("Server running on : http://localhost:5555/");
+    console.log("Server running on : 5555");
 });
 
 

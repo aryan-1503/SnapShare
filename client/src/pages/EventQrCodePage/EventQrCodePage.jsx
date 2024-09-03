@@ -5,6 +5,7 @@ import {api} from "../../api/base.js";
 import Loading from "../../components/Loading/Loading.jsx";
 import { FiExternalLink } from "react-icons/fi";
 import { GoDownload } from "react-icons/go";
+import axios from "axios";
 
 const EventQrCodePage = () => {
     const { id } = useParams();
@@ -91,6 +92,19 @@ const EventQrCodePage = () => {
         img.src = url;
     }
 
+    const handleDeleteEvent = async () => {
+        // TODO: ensure more security by adding model for deleting the event
+        try{
+            const res = await api.delete(`/event/delete-event/${id}`,{
+                withCredentials: "true"
+            })
+            alert(res.data.message);
+            navigate("/event/all");
+        }catch (e){
+            console.log(e)
+        }
+    }
+
     return (
         <>
             {loading ?
@@ -116,12 +130,13 @@ const EventQrCodePage = () => {
                             )}
                             {/*<img src={`https://api.qrserver.com/v1/create-qr-code/?data=https://snap-share-xi.vercel.app/event/${user.username}/${id}&amp;size=100x100`} alt="opps" className="w-[350px]"/>*/}
                             <div className="grid gap-2 grid-cols-2 place-items-center mt-4 mxs:grid-cols-1">
-                                <button className="w-[8rem] p-2 flex gap-2 justify-center items-center bg-yellow-950 rounded-md font-[500] text-[18px] text-[#FFFFF0] hover:bg-yellow-800 hover:transition ease-in delay-150 hover:shadow-2xl active:scale-95" onClick={() => {navigate(`/event/${id}`)}}>Open Link <FiExternalLink className="mb-1" /></button>
-                                <button className="w-[8rem] p-2 flex justify-center items-center bg-yellow-950 rounded-md font-[500] text-[18px] text-[#FFFFF0] hover:bg-yellow-800 hover:transition ease-in delay-150 hover:shadow-2xl active:scale-95" onClick={handleCopyURL}>Copy URL</button>
-                                <button className="w-[8rem] p-2 flex gap-2 justify-center items-center bg-yellow-950 rounded-md font-[500] text-[18px] text-[#FFFFF0] hover:bg-yellow-800 hover:transition ease-in delay-150 hover:shadow-2xl active:scale-95" onClick={handleDownloadQrCode}>QR Code <GoDownload className="mb-1" /></button>
-                                <button className="w-[8rem] p-2 flex justify-center items-center bg-yellow-950 rounded-md font-[500] text-[18px] text-[#FFFFF0] hover:bg-yellow-800 hover:transition ease-in delay-150 hover:shadow-2xl active:scale-95" onClick={() => navigate(`/edit-event/${id}`)}>Edit Event</button>
+                                <button className="w-[9rem] p-2 flex gap-2 justify-center items-center bg-yellow-950 rounded-md font-[500] text-[18px] text-[#FFFFF0] hover:bg-yellow-800 hover:transition ease-in delay-150 hover:shadow-2xl active:scale-95" onClick={() => {navigate(`/event/${id}`)}}>Open Link <FiExternalLink className="mb-1" /></button>
+                                <button className="w-[9rem] p-2 flex justify-center items-center bg-yellow-950 rounded-md font-[500] text-[18px] text-[#FFFFF0] hover:bg-yellow-800 hover:transition ease-in delay-150 hover:shadow-2xl active:scale-95" onClick={handleCopyURL}>Copy URL</button>
+                                <button className="w-[9rem] p-2 flex gap-2 justify-center items-center bg-yellow-950 rounded-md font-[500] text-[18px] text-[#FFFFF0] hover:bg-yellow-800 hover:transition ease-in delay-150 hover:shadow-2xl active:scale-95" onClick={handleDownloadQrCode}>QR Code <GoDownload className="mb-1" /></button>
+                                <button className="w-[9rem] p-2 flex justify-center items-center bg-yellow-950 rounded-md font-[500] text-[18px] text-[#FFFFF0] hover:bg-yellow-800 hover:transition ease-in delay-150 hover:shadow-2xl active:scale-95" onClick={() => navigate(`/edit-event/${id}`)}>Edit Event</button>
+                                <button className="w-[9rem] p-2 flex justify-center items-center bg-yellow-950 rounded-md font-[500] text-[18px] text-[#FFFFF0] hover:bg-yellow-800 hover:transition ease-in delay-150 hover:shadow-2xl active:scale-95" onClick={() => navigate(`/event/${id}/manage-images`)}>Manage Images</button>
+                                <button className="w-[9rem] p-2 flex justify-center items-center bg-yellow-950 rounded-md font-[500] text-[18px] text-[#FFFFF0] hover:bg-yellow-800 hover:transition ease-in delay-150 hover:shadow-2xl active:scale-95" onClick={handleDeleteEvent}>Delete event</button>
                             </div>
-                            <button className="w-[9rem] p-2 flex justify-center items-center bg-yellow-950 rounded-md font-[500] text-[18px] text-[#FFFFF0] hover:bg-yellow-800 hover:transition ease-in delay-150 hover:shadow-2xl active:scale-95" onClick={() => navigate(`/event/${id}/manage-images`)}>Manage Images</button>
                         </div>
                     </div>
                 )}

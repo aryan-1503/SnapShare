@@ -22,7 +22,7 @@ const Verify = () => {
         try {
             setLoading(true);
             const res = await api.post("auth/verify", { email: tempUser.email,verificationCode: verificationCode });
-            console.log("RESPONSE:", res.data);
+            // console.log("RESPONSE:", res.data);
             // alert(res.data.message);
             toast.success(res.data.message, {
                 position: "top-center",

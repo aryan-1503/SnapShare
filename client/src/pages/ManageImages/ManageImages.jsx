@@ -3,6 +3,9 @@ import {useParams} from "react-router-dom";
 import {api} from "../../api/base.js";
 import Loading from "../../components/Loading/Loading.jsx";
 import {LazyLoadImage} from "react-lazy-load-image-component";
+import axios from "axios"
+import { toast, ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 const ManageImages = () => {
     const { id } = useParams();
@@ -12,6 +15,19 @@ const ManageImages = () => {
     const [loading, setLoading] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState('');
 
+    const handleGetAllImages = async () => {
+        try {
+            setLoading(true);
+            const res = await api.get(`/images/${id}`);
+            setImages(res.data.images);
+            setFilteredImages(res.data.images);
+        } catch (error) {
+            console.error('Error fetching images:', error);
+            alert(error);
+        } finally {
+            setLoading(false);
+        }
+    };
     useEffect(() => {
         const fetchEvent = async () => {
             try {
@@ -22,23 +38,12 @@ const ManageImages = () => {
             }
         };
 
-        const handleGetAllImages = async () => {
-            try {
-                setLoading(true);
-                const res = await api.get(`/images/${id}`);
-                setImages(res.data.images);
-                setFilteredImages(res.data.images);
-            } catch (error) {
-                console.error('Error fetching images:', error);
-                alert(error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
         fetchEvent();
         handleGetAllImages();
-    }, [id]);
+
+    }, []);
+
+    console.log(filteredImages)
 
     const handleCategoryChange = (event) => {
         const category = event.target.value;
@@ -52,13 +57,17 @@ const ManageImages = () => {
     };
 
 
-    const handleDownload = (url, filename) => {
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = filename;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+    const handleDelete = async (imageId) => {
+        try {
+            const res = await axios.delete(`http://localhost:5555/api/images/delete/${id}/${imageId}`);
+            setImages(prevImages => prevImages.filter(image => image._id !== imageId));
+            setFilteredImages(prevFilteredImages => prevFilteredImages.filter(image => image._id !== imageId));
+            toast.success(res.data.message);
+            await handleGetAllImages();
+        } catch (error) {
+            console.error('Error deleting image:', error);
+            toast.error('Failed to delete the image.');
+        }
     };
 
     return (
@@ -98,7 +107,7 @@ const ManageImages = () => {
                                 className="w-[350px] h-[300px] rounded object-cover"
                                 effect="blur"
                                 wrapperProps={{
-                                    style: {transitionDelay: "1s"},
+                                    style: {transitionDelay: "100ms"},
                                 }}
                             />
                             <hr/>
@@ -109,11 +118,12 @@ const ManageImages = () => {
                                 className="mt-2 text-xl text-red-500 hover:underline"
                                 onClick={(e) => {
                                     e.stopPropagation(); // Prevent click event bubbling to image click
-                                    handleDownload(image.imageUrl, `image_${index + 1}.png`);
+                                    handleDelete(image._id);
                                 }}
                             >
                                 Delete
                             </button>
+                            <ToastContainer />
                         </div>
                     ))
                 ) : (
