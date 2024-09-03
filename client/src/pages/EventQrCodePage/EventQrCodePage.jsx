@@ -5,7 +5,8 @@ import {api} from "../../api/base.js";
 import Loading from "../../components/Loading/Loading.jsx";
 import { FiExternalLink } from "react-icons/fi";
 import { GoDownload } from "react-icons/go";
-import axios from "axios";
+import {toast, ToastContainer} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const EventQrCodePage = () => {
     const { id } = useParams();
@@ -98,7 +99,9 @@ const EventQrCodePage = () => {
             const res = await api.delete(`/event/delete-event/${id}`,{
                 withCredentials: "true"
             })
-            alert(res.data.message);
+            toast.success(res.data.message,{
+                position: "top-center"
+            });
             navigate("/event/all");
         }catch (e){
             console.log(e)
@@ -112,6 +115,7 @@ const EventQrCodePage = () => {
                     <Loading/>
                 </div> : (
                     <div className="w-screen bg-yellow-50 flex lg:justify-evenly items-center mxs:flex-col">
+                        <ToastContainer />
                         <div className="flex justify-center items-center ">
                             <Link to={`https://snap-share-xi.vercel.app/event/${id}`} className="p-2 mxs:hidden">
                                 <iframe src={`https://snap-share-xi.vercel.app/event/${id}`} frameBorder="0" title="Preview" className="h-[90vh] w-[350px] border-2 border-yellow-950"></iframe>
