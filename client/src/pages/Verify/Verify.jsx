@@ -34,6 +34,7 @@ const Verify = () => {
                 alert(error.response.data.message);
             } else {
                 alert("An unexpected error occurred");
+                console.log(error)
             }
             console.log(error.message);
         } finally {

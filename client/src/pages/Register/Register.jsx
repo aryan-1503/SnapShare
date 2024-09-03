@@ -22,7 +22,7 @@ const Register = () => {
     }
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(formData)
+        // console.log(formData)
         if(formData.confirmPassword !== formData.password){
             toast.error("Passwords doesn't match",{
                 position: "top-center"
@@ -30,16 +30,19 @@ const Register = () => {
             return;
         }
         const { confirmPassword, ...data } = formData;
-        console.log(data);
+        // console.log(data);
         try{
             setLoading(true);
             const res = await api.post("/auth/register",data);
-            console.log("RESPONSE : ",res.data);
+            // console.log("RESPONSE : ",res.data);
             setTempUser(res.data.savedUser)
             // alert(res.data.message)
-            toast.success(res.data.message, {
-                position: "top-center",
-            });
+            setTimeout(() => {
+                toast.success(res.data.message, {
+                    position: "top-center",
+                });
+            },1000)
+
             navigate("/verify")
         }
         catch (error) {
@@ -47,6 +50,7 @@ const Register = () => {
                 alert(error.response.data.message);
             } else {
                 alert("An unexpected error occurred");
+                console.log(error)
             }
             console.log(error.message);
         }
