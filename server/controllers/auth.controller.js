@@ -75,6 +75,7 @@ const register = async (req, res) => {
         return res.status(200).json({ message: "Verify your email", savedUser });
     }
     catch (error) {
+        console.log(error)
         return res.status(500).json({ message : "Something went wrong",error})
     }
 }

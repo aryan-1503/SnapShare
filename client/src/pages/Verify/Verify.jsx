@@ -34,6 +34,9 @@ const Verify = () => {
                 toast.error(error.response.data.message,{
                     position: "top-center"
                 })
+                if(error.response.data.message === "Verification Failed"){
+                    navigate("/")
+                }
             } else {
                 toast.error("An unexpected error occurred",{
                     position: "top-center"
