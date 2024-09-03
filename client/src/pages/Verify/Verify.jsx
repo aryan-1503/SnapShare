@@ -31,9 +31,13 @@ const Verify = () => {
             navigate("/");
         } catch (error) {
             if (error.response && error.response.data && error.response.data.message) {
-                alert(error.response.data.message);
+                toast.error(error.response.data.message,{
+                    position: "top-center"
+                })
             } else {
-                alert("An unexpected error occurred");
+                toast.error("An unexpected error occurred",{
+                    position: "top-center"
+                })
                 console.log(error)
             }
             console.log(error.message);
