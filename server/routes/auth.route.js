@@ -10,6 +10,6 @@ authRouter
     .post("/logout",logout)
     .get("/me", me)
     .post("/verify",verify)
-    .delete("delete-user", deleteUser)
+    .delete("/delete-user", deleteUser)
 
 export { authRouter }

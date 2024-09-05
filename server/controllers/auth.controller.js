@@ -26,7 +26,7 @@ const login = async (req,res) => {
     try{
         const user = await UserModel.findOne({ email });
         if (!user.isVerified){
-            await axios.delete(`https://snapshare-avzz.onrender.com/api/auth/delete-user/${email}`)
+            await axios.delete(`https://snapshare-avzz.onrender.com/api/auth/delete-user/${user._id}`)
             return res.status(401).json({ message: "Email not verified!" })
         }
         if(!user){
@@ -155,7 +155,7 @@ const me = async (req, res) => {
 const deleteUser = async (req,res) => {
     const { email } = req.params;
     try{
-        await UserModel.findOneAndDelete({ email });
+        await UserModel.findByIdAndDelete({ email });
         res.status(201).json({ message: "Retry again!" })
     }catch (e) {
 
