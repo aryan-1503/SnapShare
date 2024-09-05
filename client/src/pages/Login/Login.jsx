@@ -35,17 +35,19 @@ const Login = () => {
             });
             setTimeout(() => {
                 navigate("/");
-
                 window.location.reload();
             },700)
 
         } catch (error) {
             if (error.response && error.response.data && error.response.data.message) {
-                alert(error.response.data.message);
+                toast.error(error.response.data.message,{
+                    position: "top-center"
+                })
             } else {
-                alert("An unexpected error occurred");
+                toast.error("An unexpected error occurred",{
+                    position: "top-center"
+                });
             }
-            console.log(error.message);
         } finally {
             setLoading(false);
         }
@@ -81,8 +83,8 @@ const Login = () => {
                         <ToastContainer />
                     </form>
                     <div className="mt-3 text-[#dedcdc] flex justify-center p-[1rem 0 0.5rem 0] text-[20px]">
-                        Already registered?
-                        <Link to="/register" className="pl-[0.5rem] text-amber-100">Register</Link>
+                        Not yet registered?
+                        <Link to="/register" replace={true} className="pl-[0.5rem] text-amber-100">Register</Link>
                     </div>
                 </div>
             </div>

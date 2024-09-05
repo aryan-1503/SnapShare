@@ -107,7 +107,12 @@ const Register = () => {
                     </form>
                     <div className="mt-3 text-[#dedcdc] flex justify-center p-[1rem 0 0.5rem 0] text-[20px]">
                         Already registered ?
-                        <Link to="/login" className="pl-[0.5rem] text-amber-100">Login</Link>
+                        <Link
+                            to="/login"
+                            replace={true}
+                            className="pl-[0.5rem] text-amber-100">
+                                Login
+                        </Link>
                     </div>
                 </div>
             </div>

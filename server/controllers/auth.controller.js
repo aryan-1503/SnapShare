@@ -153,7 +153,7 @@ const me = async (req, res) => {
 }
 
 const deleteUser = async (req,res) => {
-    const { email } = req.body;
+    const { email } = req.params;
     try{
         await UserModel.findOneAndDelete({ email });
         res.status(201).json({ message: "Retry again!" })
