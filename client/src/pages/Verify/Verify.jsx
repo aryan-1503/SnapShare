@@ -38,7 +38,8 @@ const Verify = () => {
                     navigate("/")
                 }
             } else {
-                toast.error("An unexpected error occurred",{
+                const response = await api.delete(`/auth/delete-user/${tempUser.email}`,)
+                toast.error(`An unexpected error occurred. ${response.data.message}`,{
                     position: "top-center"
                 })
                 console.log(error)

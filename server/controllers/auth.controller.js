@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import "dotenv/config"
 import nodemailer from "nodemailer"
 import {getUser} from "../utils/getUser.js";
+import axios from "axios";
 
 const transporter = nodemailer.createTransport({
     service: "Gmail",
@@ -24,6 +25,10 @@ const login = async (req,res) => {
     const { email, password } = req.body;
     try{
         const user = await UserModel.findOne({ email });
+        if (!user.isVerified){
+            await axios.delete(`https://snapshare-avzz.onrender.com/api/auth/delete-user/${email}`)
+            return res.status(401).json({ message: "Email not verified!" })
+        }
         if(!user){
             console.log("user not found")
             return res.status(404).json({ message: "User not found! Register first" });
@@ -146,7 +151,16 @@ const me = async (req, res) => {
     const user = await UserModel.findById(id).select("-password");
     res.status(200).json({ user });
 }
-//
+
+const deleteUser = async (req,res) => {
+    const { email } = req.body;
+    try{
+        await UserModel.findOneAndDelete({ email });
+        res.status(201).json({ message: "Retry again!" })
+    }catch (e) {
+
+    }
+}
 
 
-export { login, register, logout, verify, me }
+export { login, register, logout, verify, me, deleteUser }
