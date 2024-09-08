@@ -24,10 +24,10 @@ const Hero = () => {
     return (
         <div className="p-16 flex justify-around items-center gap-4 bg-[#f6f0d8] mxs:p-4 mxs:flex-col msm:flex-col msm:p-4 mmd:p-8 mmd:flex-col">
             <div className="flex flex-col items-center w-[55%] mxs:w-[100%] msm:w-full mmd:w-full">
-                <div className="text-[55px] text-yellow-950 font-bold mxs:text-[38px] msm:w-[95%]">
+                <div className="text-[55px] text-yellow-950 font-dubai font-bold mxs:text-[38px] msm:w-[95%]">
                     Capture and Share Memories: All Event Photos in One Place
                 </div>
-                <div className="text-[24px] text-yellow-900 mt-4 mxs:text-xl msm:w-[95%]">
+                <div className="text-[24px] text-yellow-900 font-dubai mt-4 mxs:text-xl msm:w-[95%]">
                     Our event photo collector platform helps you easily manage and showcase your event photo collection. Upload, organize, and share your best moments.
                 </div>
                 <div className="mt-8 flex gap-4 mr-8">

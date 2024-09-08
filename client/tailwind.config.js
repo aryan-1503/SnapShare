@@ -10,6 +10,7 @@ export default {
         fontFamily: {
             'dancing-script': ['Dancing Script',"cursive"],
             'cinzel': ['Cinzel', 'serif'],
+            'dubai': ['Dubai','serif']
         },
         screens: {
             'sm': '480px',
