@@ -25,15 +25,16 @@ const login = async (req,res) => {
     const { email, password } = req.body;
     try{
         const user = await UserModel.findOne({ email });
+        if(!user){
+            // console.log("user not found")
+            return res.status(404).json({ message: "User not found! Register first" });
+        }
+
         if (!user.isVerified){
             await axios.delete(`https://snapshare-avzz.onrender.com/api/auth/delete-user/${user._id}`,{
                 withCredentials: true
             })
             return res.status(401).json({ message: "Email not verified!" })
-        }
-        if(!user){
-            console.log("user not found")
-            return res.status(404).json({ message: "User not found! Register first" });
         }
 
         const isPasswordMatch = await bcrypt.compare(password,user.password);
