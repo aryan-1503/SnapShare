@@ -23,8 +23,8 @@ app.use(express.json());
 app.use(urlencoded({ extended:true }))
 app.use(cookieParser(process.env.SECRET,{
     httpOnly: true,
-    secure: true,
-    sameSite: "none"
+        secure: true,
+        sameSite: "none"
 }));
 
 app.use('/events', express.static('events'));

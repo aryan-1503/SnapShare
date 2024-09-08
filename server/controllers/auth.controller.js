@@ -41,7 +41,7 @@ const login = async (req,res) => {
             console.log("password incorrect")
             return res.status(400).json({ message: "Password incorrect" });
         }
-        const token = jwt.sign({id: user._id}, process.env.SECRET, { expiresIn: '30d' });
+        const token = jwt.sign({id: user._id}, process.env.SECRET, { expiresIn: '1h' });
         res.cookie('token', token,{
             httpOnly: true,
             secure: true,
