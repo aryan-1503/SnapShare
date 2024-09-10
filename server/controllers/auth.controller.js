@@ -42,7 +42,14 @@ const login = async (req,res) => {
             console.log("password incorrect")
             return res.status(400).json({ message: "Password incorrect" });
         }
-        const token = jwt.sign({id: user._id}, process.env.SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({id: user._id}, process.env.SECRET, { expiresIn: '1h' }, (err,decoded) => {
+            if(err) {
+                if(err.name === 'TokenExpiredError'){
+                    return res.status(401).json({ message: "Session expired! Please login again."});
+                }
+                return res.status(401).json({ message: "Unauthorized"});
+            }
+        });
         res.cookie('token', token,{
             httpOnly: true,
             secure: true,
@@ -110,7 +117,7 @@ const verify = async (req, res) => {
             user.verificationCode = "";
             user.attempts = 0;
             const savedUser = await user.save();
-            const token = jwt.sign({id: user._id},process.env.SECRET, {expiresIn: '1d'});
+            const token = jwt.sign({id: user._id},process.env.SECRET, {expiresIn: '1h'});
             res.cookie('token',token,{
                 httpOnly: true,
                 secure: true,
