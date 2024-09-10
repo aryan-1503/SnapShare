@@ -42,14 +42,13 @@ const login = async (req,res) => {
             console.log("password incorrect")
             return res.status(400).json({ message: "Password incorrect" });
         }
-        const token = jwt.sign({id: user._id}, process.env.SECRET, { expiresIn: '1h' }, (err,decoded) => {
-            if(err) {
-                if(err.name === 'TokenExpiredError'){
-                    return res.status(401).json({ message: "Session expired! Please login again."});
-                }
-                return res.status(401).json({ message: "Unauthorized"});
-            }
-        });
+        let token;
+        try{
+            token = jwt.sign({id: user._id}, process.env.SECRET, { expiresIn: '1h' });
+        }catch (err) {
+            console.log("JWT sign error:", err);
+            return res.status(500).json({ message: "Error generating authentication token." });
+        }
         res.cookie('token', token,{
             httpOnly: true,
             secure: true,
