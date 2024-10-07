@@ -3,7 +3,7 @@ import "dotenv/config"
 import {login, logout, register, verify, me, deleteUser} from "../controllers/auth.controller.js";
 const authRouter = Router();
 
-
+// TODO : Forget Password , Resend Verification code
 authRouter
     .post("/register",register)
     .post("/login",login)
