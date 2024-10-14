@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import {UserModel} from "../models/UserSchema.js";
 
-const getUser = async (req,res) => {
+const getUser = async (req,res,next) => {
     const { token } = req.cookies;
     if (!token) {
         return res.status(401).json({ msg: "Unauthorized" });
@@ -13,7 +13,8 @@ const getUser = async (req,res) => {
     }
     const id = data.id
     const user = await UserModel.findById(id);
-    return user;
+    req.user = user;
+    next()
 
 }
 export { getUser }
