@@ -5,6 +5,7 @@ import {api} from "../../api/base.js";
 import AuthContext from "../../context/AuthContext.jsx";
 import {LazyLoadImage} from "react-lazy-load-image-component";
 import 'react-lazy-load-image-component/src/effects/blur.css';
+import photo from "../../assets/jay-shreya-C88ORjDV.jpg"
 
 function EventPage() {
     const navigate = useNavigate();
@@ -43,13 +44,9 @@ function EventPage() {
             <div className="title text-4xl text-center text-yellow-950">
                 Welcome to the {event.eventName}
             </div>
-            <LazyLoadImage
-                src={event.eventPhotoUrl}
+            <img
+                src={photo}
                 className="w-[240px] h-[270px] object-cover rounded-md shadow-2xl"
-                effect="blur"
-                wrapperProps={{
-                    style: {transitionDelay: "1s"},
-                }}
                 alt="preview not available"
             />
             <div className="uppercase font-cinzel font-[500] text-md text-justify xl:w-1/5">

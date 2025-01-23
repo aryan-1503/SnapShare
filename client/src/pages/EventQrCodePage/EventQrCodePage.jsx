@@ -26,25 +26,24 @@ const EventQrCodePage = () => {
             }
         };
 
-        const generateQrCode = async () => {
-            try {
-                setLoading(true);
-                const res = await api.post("/event/generate-qr-code", {
-                    "frame_name": "no-frame",
-                    "qr_code_text": `https://snap-share-xi.vercel.app/event/${id}`,
-                    "image_format": "SVG",
-                    "qr_code_logo": "scan-me-square"
-                });
-                setQrCode(res.data);
-            } catch (e) {
-                console.log(e);
-            } finally {
-                setLoading(false);
-            }
-        };
+        // const generateQrCode = async () => {
+        //     try {
+        //         setLoading(true);
+        //         const res = await api.post("/event/generate-qr-code", {
+        //             "frame_name": "no-frame",
+        //             "qr_code_text": `https://snap-share-xi.vercel.app/event/${id}`,
+        //             "image_format": "SVG",
+        //             "qr_code_logo": "scan-me-square"
+        //         });
+        //         setQrCode(res.data);
+        //     } catch (e) {
+        //         console.log(e);
+        //     } finally {
+        //         setLoading(false);
+        //     }
+        // };
 
         fetchSingleEvent();
-        generateQrCode();
     }, [id]);
 
     const handleCopyURL = () => {
