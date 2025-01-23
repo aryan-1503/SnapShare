@@ -44,7 +44,7 @@ function EventPage() {
                 Welcome to the {event.eventName}
             </div>
             <LazyLoadImage
-                src={`https://snapshare-avzz.onrender.com/${event.eventPhoto}`}
+                src={event.eventPhotoUrl}
                 className="w-[240px] h-[270px] object-cover rounded-md shadow-2xl"
                 effect="blur"
                 wrapperProps={{
