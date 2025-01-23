@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import { useParams } from 'react-router-dom';
 import { api } from '../../api/base.js';
 import Loading from "../../components/Loading/Loading.jsx";
@@ -14,6 +14,24 @@ const EventAllImages = () => {
     const [selectedCategory, setSelectedCategory] = useState('');
     const [selectedImage, setSelectedImage] = useState(null);
     const [searchInput, setSearchInput] = useState("");
+    const [page, setPage] = useState(1);
+    const [hasMore, setHasMore] = useState(true);
+    const observer = useRef();
+
+    const fetchImages = useCallback(async () => {
+        try{
+            setLoading(true);
+            const res = await api.get(`images/${id}?page=${page}&limit=10`)
+            setImages(prev => [...prev,...res.data.images]);
+            setFilteredImages(prev => [...prev,...res.data.images]);
+            setHasMore(res.data.hasMore);
+        }catch (e) {
+            console.log("Error in fetchImages : ",e)
+        }finally {
+            setLoading(false)
+        }
+    },[id,page])
+
 
     useEffect(() => {
         const fetchEvent = async () => {
@@ -25,23 +43,38 @@ const EventAllImages = () => {
             }
         };
 
-        const handleGetAllImages = async () => {
-            try {
-                setLoading(true);
-                const res = await api.get(`images/${id}`);
-                setImages(res.data.images);
-                setFilteredImages(res.data.images);
-            } catch (error) {
-                console.error('Error fetching images:', error);
-                alert(error);
-            } finally {
-                setLoading(false);
-            }
-        };
+        // const handleGetAllImages = async () => {
+        //     try {
+        //         setLoading(true);
+        //         const res = await api.get(`images/${id}`);
+        //         setImages(res.data.images);
+        //         setFilteredImages(res.data.images);
+        //     } catch (error) {
+        //         console.error('Error fetching images:', error);
+        //         alert(error);
+        //     } finally {
+        //         setLoading(false);
+        //     }
+        // };
 
         fetchEvent();
-        handleGetAllImages();
-    }, [id]);
+        fetchImages();
+    }, [id,fetchImages]);
+
+    const lastImageRef = useCallback(
+        node => {
+            if(loading) return;
+            if(observer.current) observer.current.disconnect();
+
+            observer.current = new IntersectionObserver(entries => {
+                if (entries[0].isIntersecting && hasMore) {
+                    setPage(prevPage => prevPage + 1);
+                }
+            })
+            if (node) observer.current.observe(node);
+        },
+        [loading , hasMore]
+    )
 
     const handleCategoryChange = (event) => {
         const category = event.target.value;
@@ -188,6 +221,7 @@ const EventAllImages = () => {
                     </div>
                 </div>
             )}
+            {loading && <Loading />}
         </div>
     );
 };

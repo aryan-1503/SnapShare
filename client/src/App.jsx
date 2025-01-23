@@ -26,6 +26,7 @@ function App() {
     const [user, setUser] = useState(null);
     const [tempUser, setTempUser] = useState(null);
     const [loading, setLoading] = useState(true);
+        
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -40,6 +41,8 @@ function App() {
         };
         fetchUserData();
     }, []);
+
+
 
     return (
         <AuthContext.Provider value={{ user, setUser, tempUser, setTempUser }}>

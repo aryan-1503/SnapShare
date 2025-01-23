@@ -13,10 +13,10 @@ const PORT = process.env.PORT || 8000;
 console.log("SnapShare backend");
 
 // Redis client
-const client = createClient();
-client.on("error", (err) => console.error("Redis Client Error:", err)); // Handle Redis errors
+// const client = createClient();
+// client.on("error", (err) => console.error("Redis Client Error:", err)); // Handle Redis errors
 
-await client.connect();
+// await client.connect();
 
 const app = express();
 await connectToDB();

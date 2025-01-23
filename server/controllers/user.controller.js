@@ -4,8 +4,9 @@ import {UserModel} from "../models/UserSchema.js";
 import {getOrSetCache} from "../utils/getOrSetCache.js";
 
 const userEvents = async (req,res) => {
-    const events = await getOrSetCache("events", () => {
-        const user = req.user;
+    const userId = req.user._id;
+    const events = await getOrSetCache(`user:${userId}/events`, async () => {
+        const user = await UserModel.findById(userId).populate("events");
         return user.events;
     })
     return res.json(events)

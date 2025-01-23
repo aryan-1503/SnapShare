@@ -12,9 +12,8 @@ const getUser = async (req,res,next) => {
         return res.status(401).json({ msg: "data Unauthorized" });
     }
     const id = data.id
-    const user = await UserModel.findById(id);
-    req.user = user;
-    next()
+    req.user = await UserModel.findById(id);
+    next();
 
 }
 export { getUser }

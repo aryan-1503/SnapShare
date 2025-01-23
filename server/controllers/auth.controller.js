@@ -44,12 +44,12 @@ const login = async (req,res) => {
         }
         let token;
         try{
-            token = jwt.sign({id: user._id}, process.env.SECRET, { expiresIn: '1h' });
+            token = jwt.sign({ id: user._id }, process.env.SECRET, { expiresIn: '1d' });
         }catch (err) {
             console.log("JWT sign error:", err);
             return res.status(500).json({ message: "Error generating authentication token." });
         }
-        res.cookie('token', token,{
+        res.cookie('token', token,{ 
             httpOnly: true,
             secure: true,
             sameSite: "none",
@@ -140,6 +140,8 @@ const verify = async (req, res) => {
         console.log(error)
         return res.status(500).json({message: "Something went Wrong"});
     }
+
+
 }
 
 const me = async (req, res) => {
@@ -147,11 +149,16 @@ const me = async (req, res) => {
     if (!token) {
         return res.status(200).json({ msg: "Token not Present" });
     }
-    const data = await jwt.verify(token, process.env.SECRET,{
-        httpOnly: true,
-        secure: true,
-        sameSite: "None"
-    });
+    let data;
+    try{
+        data = await jwt.verify(token, process.env.SECRET,{
+            httpOnly: true,
+            secure: true,
+            sameSite: "None"
+        });
+    }catch (e) {
+        res.status(401).json({ message : "Session Expired! Login again"})
+    }
 
     if (!data) {
         return res.status(401).json({ msg: "data Unauthorized" });

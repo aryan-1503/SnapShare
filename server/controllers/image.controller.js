@@ -51,10 +51,14 @@ const uploadImages = async (req, res) => {
 // Get event images
 const getEventImages = async (req, res) => {
     const { id } = req.params;
+    const { page = 1, limit = 10} = req.query;
     try {
-        const images = await getOrSetCache(`event:${id}`, async () => {
+        const images = await getOrSetCache(`event:${id}:page:${page}:limit:${limit}`, async () => {
             const event = await eventModel.findById(id).populate('images');
-            for (const image of event.images) {
+            const startIndex = (page -1) *limit;
+            const endIndex = page*limit;
+            const paginatedImages = event.images.slice(startIndex,endIndex);
+            for (const image of paginatedImages) {
                 const command = new GetObjectCommand({
                     Bucket: process.env.BUCKET_NAME,
                     Key: image.image,
@@ -65,11 +69,10 @@ const getEventImages = async (req, res) => {
                 await image.save();
             }
 
-            const finalImages = await eventModel.findById(id).populate('images');
-            return finalImages.images;
+            return paginatedImages;
         });
 
-        return res.status(200).json({ message: "Images Retrieved", images });
+        return res.status(200).json({ message: "Images Retrieved", images, hasMore : images.length === parseInt(limit) });
     } catch (e) {
         console.log(e);
         return res.status(500).json({ message: "Internal Server Error" });

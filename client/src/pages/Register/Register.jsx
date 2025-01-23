@@ -13,9 +13,12 @@ const Register = () => {
         password: "",
         confirmPassword: "",
     });
+
     const [loading, setLoading] = useState(false);
+
     const navigate = useNavigate();
     const { setTempUser } = useContext(AuthContext)
+    
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData,[name] : value});
