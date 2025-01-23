@@ -1,9 +1,8 @@
-import { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
-import { ImageModel } from "../models/ImageSchema.js";
+import {DeleteObjectCommand, GetObjectCommand, PutObjectCommand, S3Client} from "@aws-sdk/client-s3";
+import {getSignedUrl} from "@aws-sdk/s3-request-presigner";
+import {ImageModel} from "../models/ImageSchema.js";
 import crypto from "crypto";
-import { eventModel } from "../models/EventSchema.js";
-import { getOrSetCache } from "../utils/getOrSetCache.js";
+import {eventModel} from "../models/EventSchema.js";
 
 const randomImageName = (bytes = 32) => crypto.randomBytes(bytes).toString('hex');
 
@@ -15,7 +14,6 @@ const s3 = new S3Client({
     region: process.env.BUCKET_REGION
 });
 
-// Upload images
 const uploadImages = async (req, res) => {
     const { id } = req.params;
     const { uploaderName, category } = req.body;
@@ -48,38 +46,36 @@ const uploadImages = async (req, res) => {
     }
 };
 
-// Get event images
 const getEventImages = async (req, res) => {
     const { id } = req.params;
-    const { page = 1, limit = 10} = req.query;
+    const { page = 1, limit = 10 } = req.query;
     try {
-        const images = await getOrSetCache(`event:${id}:page:${page}:limit:${limit}`, async () => {
-            const event = await eventModel.findById(id).populate('images');
-            const startIndex = (page -1) *limit;
-            const endIndex = page*limit;
-            const paginatedImages = event.images.slice(startIndex,endIndex);
-            for (const image of paginatedImages) {
-                const command = new GetObjectCommand({
-                    Bucket: process.env.BUCKET_NAME,
-                    Key: image.image,
-                    ResponseContentDisposition: `attachment; filename="${image.image}.jpg"`
-                });
-                const url = await getSignedUrl(s3, command, { expiresIn: 3600 });
-                image.imageUrl = url;
-                await image.save();
-            }
+        const event = await eventModel.findById(id).populate('images');
+        if (!event) {
+            return res.status(404).json({ message: "Event not found" });
+        }
 
-            return paginatedImages;
-        });
+        const startIndex = (page - 1) * limit;
+        const endIndex = page * limit;
+        const paginatedImages = event.images.slice(startIndex, endIndex);
 
-        return res.status(200).json({ message: "Images Retrieved", images, hasMore : images.length === parseInt(limit) });
+        for (const image of paginatedImages) {
+            const command = new GetObjectCommand({
+                Bucket: process.env.BUCKET_NAME,
+                Key: image.image,
+                ResponseContentDisposition: `attachment; filename="${image.image}.jpg"`
+            });
+            image.imageUrl = await getSignedUrl(s3, command, {expiresIn: 3600});
+            await image.save();
+        }
+
+        return res.status(200).json({ message: "Images Retrieved", images: paginatedImages, hasMore: paginatedImages.length === parseInt(limit) });
     } catch (e) {
         console.log(e);
         return res.status(500).json({ message: "Internal Server Error" });
     }
 };
 
-// Delete an image
 const deleteImage = async (req, res) => {
     const { id } = req.params;
     const { eventId } = req.params;

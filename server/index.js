@@ -7,16 +7,9 @@ import { authRouter } from "./routes/auth.route.js";
 import { eventRoute } from "./routes/event.route.js";
 import { userRoute } from "./routes/user.route.js";
 import { imageRoute } from "./routes/image.route.js";
-import { createClient } from "redis";
 
 const PORT = process.env.PORT || 8000;
 console.log("SnapShare backend");
-
-// Redis client
-// const client = createClient();
-// client.on("error", (err) => console.error("Redis Client Error:", err)); // Handle Redis errors
-
-// await client.connect();
 
 const app = express();
 await connectToDB();
@@ -40,7 +33,6 @@ app.use(
 
 app.use("/events", express.static("events"));
 
-// Routers
 app.use("/api/auth", authRouter);
 app.use("/api/event/", eventRoute);
 app.use("/api/user", userRoute);
