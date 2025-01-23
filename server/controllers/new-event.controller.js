@@ -2,7 +2,9 @@ import {eventModel} from "../models/EventSchema.js";
 import jwt from "jsonwebtoken";
 import {UserModel} from "../models/UserSchema.js";
 import axios from "axios";
-import {S3Client} from "@aws-sdk/client-s3";
+import {GetObjectCommand, PutObjectCommand, S3Client} from "@aws-sdk/client-s3";
+import crypto from "crypto";
+import {getSignedUrl} from "@aws-sdk/s3-request-presigner";
 
 
 const s3 = new S3Client({
@@ -12,6 +14,7 @@ const s3 = new S3Client({
     },
     region: process.env.BUCKET_REGION
 });
+const randomImageName = (bytes = 32) => crypto.randomBytes(bytes).toString('hex');
 
 
 const createNewEvent = async (req, res) => {
@@ -31,9 +34,18 @@ const createNewEvent = async (req, res) => {
         }
         const eventPhotoPath = eventPhoto.path;
 
+        const eventPhotoName = randomImageName();
+        const command = new PutObjectCommand({
+            Bucket: process.env.BUCKET_NAME,
+            Key: eventPhotoName,
+            Body: eventPhoto.buffer,
+            ContentType: eventPhoto.mimetype
+        });
+        await s3.send(command);
+
         const newEvent = new eventModel({
             eventName,
-            eventPhoto: eventPhotoPath,
+            eventPhoto: eventPhotoName,
             categories,
             description,
             eventTime
@@ -57,6 +69,13 @@ const getSingleEvent = async (req,res) => {
         if (!event){
             return res.status(404).json({ message : "Event not Found"});
         }
+        const command = new GetObjectCommand({
+            Bucket: process.env.BUCKET_NAME,
+            Key: event.eventPhoto,
+            ResponseContentDisposition: `attachment; filename="${event.eventPhoto}.jpg"`
+        });
+        event.eventPhotoUrl = await getSignedUrl(s3, command, {expiresIn: 3600});
+        await event.save();
         return res.status(200).json({message: "Event Found", event})
     }
     catch (e) {

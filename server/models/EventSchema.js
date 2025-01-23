@@ -10,6 +10,9 @@ const EventSchema = new Schema({
         type: String,
         required: true
     },
+    eventPhotoUrl: {
+        type: String
+    },
     categories : [{
         type: String,
     }],

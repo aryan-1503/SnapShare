@@ -43,16 +43,14 @@ function EventPage() {
                 Welcome to the {event.eventName}
             </div>
             <LazyLoadImage
-                src={`https://snapshare-avzz.onrender.com/${event.eventPhoto}`}
+                src={event.eventPhotoUrl}
                 className="w-[240px] h-[270px] object-cover rounded-md shadow-2xl"
                 effect="blur"
                 wrapperProps={{
-                    // If you need to, you can tweak the effect transition using the wrapper style.
                     style: {transitionDelay: "1s"},
                 }}
                 alt="preview not available"
             />
-            {/*<img src={`https://snapshare-avzz.onrender.com/${decodeURIComponent(event.eventPhoto)}`} alt="No preview available" className="w-[240px] h-[270px] object-cover rounded-md shadow-2xl"/>*/}
             <div className="uppercase font-cinzel font-[500] text-md text-justify xl:w-1/5">
                 Share your memories effortlessly. Upload and view wedding
                 photos from all guests in one place. Make every moment
