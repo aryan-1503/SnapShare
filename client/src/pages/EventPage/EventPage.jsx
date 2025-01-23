@@ -36,6 +36,7 @@ function EventPage() {
         navigate(`/event/${event._id}/upload`)
     }
 
+    console.log(event)
 
     return (
         <div className="flex flex-col justify-center items-center bg-yellow-50 gap-4 p-8">
@@ -43,7 +44,7 @@ function EventPage() {
                 Welcome to the {event.eventName}
             </div>
             <LazyLoadImage
-                src={event.eventPhotoUrl}
+                src={`https://snapshare-avzz.onrender.com/${event.eventPhoto}`}
                 className="w-[240px] h-[270px] object-cover rounded-md shadow-2xl"
                 effect="blur"
                 wrapperProps={{

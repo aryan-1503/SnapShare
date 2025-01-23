@@ -32,9 +32,9 @@ const createNewEvent = async (req, res) => {
         if (!eventPhoto) {
             return res.status(404).json({ message: "Image not found!" });
         }
-        const eventPhotoPath = eventPhoto.path;
 
         const eventPhotoName = randomImageName();
+        console.log(eventPhotoName)
         const command = new PutObjectCommand({
             Bucket: process.env.BUCKET_NAME,
             Key: eventPhotoName,
