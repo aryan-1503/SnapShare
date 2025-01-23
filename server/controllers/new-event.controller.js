@@ -13,7 +13,7 @@ const s3 = new S3Client({
     region: process.env.BUCKET_REGION
 });
 
-dd .
+
 const createNewEvent = async (req, res) => {
     const { token } = req.cookies;
     if (!token) {
