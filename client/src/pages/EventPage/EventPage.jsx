@@ -3,7 +3,6 @@ import React, {useContext, useEffect, useState} from "react";
 import "./EventPage.css"
 import {api} from "../../api/base.js";
 import AuthContext from "../../context/AuthContext.jsx";
-import {LazyLoadImage} from "react-lazy-load-image-component";
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import photo from "../../assets/jay-shreya-C88ORjDV.jpg"
 
@@ -36,8 +35,6 @@ function EventPage() {
     const handleShareMemories = () => {
         navigate(`/event/${event._id}/upload`)
     }
-
-    console.log(event)
 
     return (
         <div className="flex flex-col justify-center items-center bg-yellow-50 gap-4 p-8">

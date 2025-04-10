@@ -21,7 +21,7 @@ const EventAllImages = () => {
     const fetchImages = useCallback(async () => {
         try{
             setLoading(true);
-            const res = await api.get(`images/${id}?page=${page}&limit=10`)
+            const res = await api.get(`images/${id}`)
             setImages(prev => [...prev,...res.data.images]);
             setFilteredImages(prev => [...prev,...res.data.images]);
             setHasMore(res.data.hasMore);

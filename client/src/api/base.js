@@ -8,7 +8,7 @@ const api = axios.create({
     headers: {
         "Content-Type": "application/json"
     },
-    baseURL: SERVER_BASE_URL,
+    baseURL: SERVER_DEV_BASE_URL,
     withCredentials: true
 })
 

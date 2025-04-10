@@ -47,7 +47,7 @@ const EventQrCodePage = () => {
     }, [id]);
 
     const handleCopyURL = () => {
-        const urlToCopy = `https://snap-share-xi.vercel.app/event/${id}`;
+        const urlToCopy = `http://localhost:5555/event/${id}`;
         navigator.clipboard.writeText(urlToCopy)
             .then(() => {
                 alert("URL copied")
@@ -117,7 +117,7 @@ const EventQrCodePage = () => {
                         <ToastContainer />
                         <div className="flex justify-center items-center ">
                             <Link to={`https://snap-share-xi.vercel.app/event/${id}`} className="p-2 mxs:hidden">
-                                <iframe src={`https://snap-share-xi.vercel.app/event/${id}`} frameBorder="0" title="Preview" className="h-[90vh] w-[350px] border-2 border-yellow-950"></iframe>
+                                <iframe src={`http://localhost:5173/event/${id}`} frameBorder="0" title="Preview" className="h-[90vh] w-[350px] border-2 border-yellow-950"></iframe>
                             </Link>
                             <div className="font-dancing-script uppercase text-center text-3xl font-bold mxs:p-4 lg:hidden">
                                 {eventDetails.eventName}

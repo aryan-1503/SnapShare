@@ -9,19 +9,19 @@ import AuthContext from "./context/AuthContext.jsx";
 import Verify from "./pages/Verify/Verify.jsx";
 import { api } from "./api/base.js";
 import Loading from "./components/Loading/Loading.jsx";
-import Upload from "./pages/Upload/Upload.jsx"; //done
-import EventAllImages from "./pages/EventAllImages/EventAllImages.jsx"; //done
+import Upload from "./pages/Upload/Upload.jsx";
+import EventAllImages from "./pages/EventAllImages/EventAllImages.jsx";
 
 
 
-const CreateEvent = lazy(() => import("./pages/CreateEvent/CreateEvent.jsx")); //done
-const AllEvents = lazy(() => import("./pages/AllEvents/AllEvents.jsx")); //done just check image loading
-const EditSingleEvent = lazy(() => import("./pages/EditSingleEvent/EditSingleEvent.jsx")); //done
-const EventPage = lazy(() => import("./pages/EventPage/EventPage.jsx")); //done
-const EventPageLayout = lazy(() => import("./layouts/EventPageLayout.jsx")); //done
-const Profile = lazy(() => import("./pages/Profile/Profile.jsx")); //done
-const EventQrCodePage = lazy(() => import("./pages/EventQrCodePage/EventQrCodePage.jsx")); //done
-const ManageImages = lazy(() => import("./pages/ManageImages/ManageImages.jsx")); //done
+const CreateEvent = lazy(() => import("./pages/CreateEvent/CreateEvent.jsx"));
+const AllEvents = lazy(() => import("./pages/AllEvents/AllEvents.jsx"));
+const EditSingleEvent = lazy(() => import("./pages/EditSingleEvent/EditSingleEvent.jsx"));
+const EventPage = lazy(() => import("./pages/EventPage/EventPage.jsx"));
+const EventPageLayout = lazy(() => import("./layouts/EventPageLayout.jsx"));
+const Profile = lazy(() => import("./pages/Profile/Profile.jsx"));
+const EventQrCodePage = lazy(() => import("./pages/EventQrCodePage/EventQrCodePage.jsx"));
+const ManageImages = lazy(() => import("./pages/ManageImages/ManageImages.jsx"));
 function App() {
     const [user, setUser] = useState(null);
     const [tempUser, setTempUser] = useState(null);

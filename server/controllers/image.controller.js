@@ -59,7 +59,7 @@ const getEventImages = async (req, res) => {
         const endIndex = page * limit;
         const paginatedImages = event.images.slice(startIndex, endIndex);
 
-        for (const image of paginatedImages) {
+        for (const image of event.images) {
             const command = new GetObjectCommand({
                 Bucket: process.env.BUCKET_NAME,
                 Key: image.image,
@@ -69,7 +69,7 @@ const getEventImages = async (req, res) => {
             await image.save();
         }
 
-        return res.status(200).json({ message: "Images Retrieved", images: paginatedImages, hasMore: paginatedImages.length === parseInt(limit) });
+        return res.status(200).json({ message: "Images Retrieved", images: event.images, hasMore: paginatedImages.length === parseInt(limit) });
     } catch (e) {
         console.log(e);
         return res.status(500).json({ message: "Internal Server Error" });
